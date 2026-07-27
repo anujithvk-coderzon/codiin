@@ -1,0 +1,28 @@
+{
+    "name": "CODiiN Tech Mentors Lab",
+    "short_name": "CODiiN",
+    "description": "Premier software training and mentorship in Kochi. Expert guidance in Full Stack Development, Data Analytics, Data Science, and Agentic AI.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#6366f1",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/img/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/img/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["education", "technology"],
+    "lang": "en",
+    "dir": "ltr"
+}
