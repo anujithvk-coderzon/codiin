@@ -31,6 +31,8 @@ function Brand({ withLocation }: { withLocation: boolean }) {
           className="logo-img"
           width={160}
           height={40}
+          /* Next blocks SVG through the image optimizer; serve it as-is. */
+          unoptimized
         />
       </Link>
       <p>

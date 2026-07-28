@@ -18,7 +18,6 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 
 import { dirname, join, relative, resolve } from "node:path";
 
 const SRC = resolve(process.cwd(), "..");
-const APP = resolve(process.cwd(), "app");
 
 const { parse } = await import("node-html-parser");
 
@@ -189,11 +188,18 @@ function parseAttrString(attrString) {
 
 /* ------------------------------------------------------------- JSX emitter */
 
-const BLOCK_TAGS = new Set([
-  "div", "section", "article", "main", "aside", "header", "footer", "nav",
-  "ul", "ol", "li", "table", "thead", "tbody", "tr", "td", "th", "form",
-  "h1", "h2", "h3", "h4", "h5", "h6", "p", "figure", "blockquote", "pre",
+/** Tags that sit on the text line, where a neighbouring space is visible. */
+const INLINE_TAGS = new Set([
+  "a", "span", "strong", "b", "em", "i", "u", "s", "small", "code", "kbd",
+  "samp", "var", "sub", "sup", "abbr", "cite", "q", "time", "mark", "label",
+  "button", "img", "svg", "br", "input", "select", "textarea",
 ]);
+
+function isInline(node) {
+  if (!node) return false;
+  if (node.nodeType === 3) return (node.rawText ?? "").trim() !== "";
+  return INLINE_TAGS.has((node.rawTagName ?? "").toLowerCase());
+}
 
 class Emitter {
   constructor(srcFile, preBlocks) {
@@ -254,15 +260,25 @@ class Emitter {
     return parts;
   }
 
-  /** Collapses whitespace the way HTML rendering does. */
-  text(node, isFirst, isLast, parentTag) {
+  /**
+   * Collapses whitespace the way HTML rendering does.
+   *
+   * A whitespace-only node between two inline elements is a real, visible
+   * space (`<a>…</a> <span>…</span>` renders with a gap), so it is preserved
+   * as {" "}. Between block elements it collapses to nothing — and emitting
+   * one there would inject a stray anonymous item into flex/grid containers.
+   */
+  text(node, isFirst, isLast, siblings, index) {
     const raw = decodeEntities(node.rawText ?? "");
     const collapsed = raw.replace(/\s+/g, " ");
+
     if (collapsed.trim() === "") {
-      // Whitespace-only: drop at block boundaries, otherwise keep one space.
-      if (isFirst || isLast || BLOCK_TAGS.has(parentTag)) return null;
-      return `{" "}`;
+      if (isFirst || isLast) return null;
+      const prevInline = isInline(siblings[index - 1]);
+      const nextInline = isInline(siblings[index + 1]);
+      return prevInline && nextInline ? `{" "}` : null;
     }
+
     let out = collapsed;
     if (isFirst) out = out.replace(/^ /, "");
     if (isLast) out = out.replace(/ $/, "");
@@ -287,11 +303,11 @@ class Emitter {
     return `${pad}${open}{${templateLiteral(block.text)}}</pre>`;
   }
 
-  node(node, indent, isFirst, isLast, parentTag) {
+  node(node, indent, isFirst, isLast, siblings, index) {
     const pad = "  ".repeat(indent);
 
     if (node.nodeType === 3) {
-      const t = this.text(node, isFirst, isLast, parentTag);
+      const t = this.text(node, isFirst, isLast, siblings, index);
       return t === null ? null : pad + t;
     }
     if (node.nodeType === 8) return null; // comment
@@ -316,7 +332,7 @@ class Emitter {
 
     if (VOID.has(tag)) return `${pad}<${jsxTag}${attrString} />`;
 
-    const children = this.children(node, indent + 1, tag);
+    const children = this.children(node, indent + 1);
     if (children.length === 0) return `${pad}<${jsxTag}${attrString} />`;
 
     const body = children.join("\n");
@@ -334,7 +350,7 @@ class Emitter {
     return element;
   }
 
-  children(node, indent, parentTag) {
+  children(node, indent) {
     const kids = (node.childNodes ?? []).filter((c) => {
       if (c.nodeType === 8) return false;
       if (c.nodeType === 3) return true;
@@ -342,7 +358,7 @@ class Emitter {
     });
     const out = [];
     kids.forEach((child, i) => {
-      const line = this.node(child, indent, i === 0, i === kids.length - 1, parentTag);
+      const line = this.node(child, indent, i === 0, i === kids.length - 1, kids, i);
       if (line !== null) out.push(line);
     });
     return out;
@@ -516,10 +532,10 @@ function convert(srcFile, outFile, { exportName, notFound = false }) {
 
   const emitter = new Emitter(srcFile, blocks);
   const body = emitter
-    .children(parse(regions.body, parseOpts), 4, "main")
+    .children(parse(regions.body, parseOpts), 4)
     .join("\n");
   const footer = regions.footer
-    ? emitter.children(parse(regions.footer, parseOpts), 3, "body").join("\n")
+    ? emitter.children(parse(regions.footer, parseOpts), 3).join("\n")
     : "";
 
   const route = "/" + outFile.replace(/^app\//, "").replace(/\/page\.tsx$/, "").replace(/^\/?/, "");

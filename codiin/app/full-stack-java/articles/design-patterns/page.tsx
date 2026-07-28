@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -911,99 +912,7 @@ public class AudioPlayer implements MediaPlayer {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <Link href="/" className="logo">
-                <img src="/img/codiin-logo-light.svg" alt="CODiiN Tech Mentors Lab" className="logo-img" />
-              </Link>
-              <p>
-                {"Empowering the next generation of tech professionals through personalized mentorship and hands-on learning."}
-              </p>
-            </div>
-            <div className="footer-links">
-              <h4>
-                {"Programs"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/full-stack-javascript">
-                    {"Full Stack JavaScript"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-python">
-                    {"Full Stack Python"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-java">
-                    {"Full Stack Java"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-dotnet">
-                    {"Full Stack .NET"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data-analytics">
-                    {"Data Analytics"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-links">
-              <h4>
-                {"Quick Links"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/">
-                    {"Home"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#about">
-                    {"About Us"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#why-us">
-                    {"Why CODiiN"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#contact">
-                    {"Contact"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-contact">
-              <h4>
-                {"Get in Touch"}
-              </h4>
-              <p>
-                <a href="mailto:contact@codiin.com">
-                  {"contact@codiin.com"}
-                </a>
-              </p>
-              <p>
-                <a href="tel:+918301890158">
-                  {"+91 83018 90158"}
-                </a>
-              </p>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              {"© 2025 CODERZON Technologies Pvt Ltd. All rights reserved."}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
       <WhatsAppFloat message={"Hi CODiiN! I'm interested in learning Java Design Patterns."} />
     </>

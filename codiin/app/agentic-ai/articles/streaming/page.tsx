@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
@@ -405,15 +406,7 @@ async def websocket_chat(websocket: WebSocket):
         </article>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-bottom">
-            <p>
-              {"© 2025 CODERZON Technologies Pvt Ltd. All rights reserved."}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
     </>
   );

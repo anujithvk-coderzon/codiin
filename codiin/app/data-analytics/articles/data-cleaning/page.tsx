@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 
@@ -789,15 +790,7 @@ df_clean = (cleaner
         </article>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-bottom">
-            <p>
-              {"© 2025 CODERZON Technologies Pvt Ltd. All rights reserved."}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
     </>
   );

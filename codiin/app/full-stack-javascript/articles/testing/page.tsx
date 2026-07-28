@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
@@ -645,25 +646,7 @@ module.exports = {
         </article>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <Link href="/" className="footer-logo">
-                <img src="/img/codiin-logo-light.svg" alt="CODiiN Tech Mentors Lab" className="logo-img" />
-              </Link>
-              <p>
-                {"Empowering the next generation of tech professionals."}
-              </p>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              {"© 2025 CODERZON Technologies Pvt Ltd. All rights reserved."}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
     </>
   );

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -749,117 +750,7 @@ response = claude.invoke("Explain Python decorators")`}</code></pre>
         </article>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-brand">
-              <Link href="/" className="footer-logo">
-                <img src="/img/codiin-logo-light.svg" alt="CODiiN Tech Mentors Lab" className="logo-img" />
-              </Link>
-              <p>
-                {"Empowering the next generation of tech professionals through personalized mentorship and hands-on learning."}
-              </p>
-              <div className="footer-company">
-                <strong>
-                  {"CODERZON Technologies Pvt Ltd"}
-                </strong>
-              </div>
-            </div>
-            <div className="footer-links">
-              <h4>
-                {"Programs"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/full-stack-javascript">
-                    {"Full Stack JavaScript"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-python">
-                    {"Full Stack Python"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-java">
-                    {"Full Stack Java"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/full-stack-dotnet">
-                    {"Full Stack .NET"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/hybrid-mobile-app">
-                    {"Hybrid Mobile Apps"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-links">
-              <h4>
-                {"Data & AI"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/data-analytics">
-                    {"Data Analytics"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data-engineering">
-                    {"Data Engineering"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data-science">
-                    {"Data Science"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/agentic-ai">
-                    {"Agentic AI"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-links">
-              <h4>
-                {"Connect"}
-              </h4>
-              <ul>
-                <li>
-                  <a href="mailto:contact@codiin.com">
-                    {"contact@codiin.com"}
-                  </a>
-                </li>
-                <li>
-                  <a href="tel:+918301890158">
-                    {"+91 83018 90158"}
-                  </a>
-                </li>
-                <li>
-                  {"Kochi, Kerala"}
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              {"© 2025 CODERZON Technologies Pvt Ltd. All rights reserved."}
-            </p>
-            <div className="footer-legal">
-              <Link href="/privacy-policy">
-                {"Privacy Policy"}
-              </Link>
-              <Link href="/terms-of-service">
-                {"Terms of Service"}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
       <WhatsAppFloat message={"Hi CODiiN! I want to learn more about LLMs and AI."} />
     </>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 export const metadata: Metadata = {
@@ -839,13 +840,7 @@ app.get('/health/ready', async (req, res) => {
         </div>
       </main>
 
-      <footer>
-        <div className="container">
-          <p>
-            {"© 2024 Codiin. All rights reserved."}
-          </p>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
     </>
   );

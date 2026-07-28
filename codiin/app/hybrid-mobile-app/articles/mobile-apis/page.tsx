@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import Navbar from "@/components/Navbar";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -1199,91 +1200,7 @@ function UserListScreen() {
         </article>
       </main>
 
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h3>
-                {"CODiiN Tech Mentors Lab"}
-              </h3>
-              <p>
-                {"Empowering the next generation of tech professionals through hands-on learning and industry mentorship."}
-              </p>
-            </div>
-            <div className="footer-section">
-              <h4>
-                {"Quick Links"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/#programs">
-                    {"Programs"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#about">
-                    {"About Us"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#contact">
-                    {"Contact"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-section">
-              <h4>
-                {"Programs"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/data-analytics">
-                    {"Data Analytics"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data-engineering">
-                    {"Data Engineering"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/data-science">
-                    {"Data Science"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/agentic-ai">
-                    {"Agentic AI"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="footer-section">
-              <h4>
-                {"Legal"}
-              </h4>
-              <ul>
-                <li>
-                  <Link href="/privacy-policy">
-                    {"Privacy Policy"}
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/terms-of-service">
-                    {"Terms & Conditions"}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>
-              {"© 2024 CODiiN Tech Mentors Lab. All rights reserved."}
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer variant="article" />
 
       <WhatsAppFloat message={"Hi CODiiN, I'm interested in learning more about your programs"} />
     </>

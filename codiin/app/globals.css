@@ -4264,11 +4264,22 @@ html {
     margin-top: 3px;
 }
 
-/* Touch targets */
-.social-link,
-.footer-social a {
+/* Touch targets. The footer icons keep their original 40px box — bumping them
+   to 44 pushed the fourth icon onto a second row in the narrow footer column. */
+.social-link {
     min-width: 44px;
     min-height: 44px;
+}
+
+.footer-social {
+    flex-wrap: nowrap;
+}
+
+/* Square icons that never squash when the column gets narrow. */
+.footer-social a {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
 }
 
 /* --- 14. Extra-small tier (≤ 400px) ---------------------------------------- */
@@ -4629,32 +4640,29 @@ textarea:focus-visible {
     font-size: clamp(11px, 2.7vw, 14px);
 }
 
-/* Standalone navigation links get a comfortable touch height. Links that sit
-   inline inside a sentence are intentionally left alone — padding them would
-   break the line box. */
-.nav-links a,
-.footer-links a,
-.footer-contact a,
-.footer-legal a,
-.article-breadcrumb a,
-.back-link,
-.related-article-card {
+/* Standalone navigation links get a comfortable touch target. Vertical
+   padding is used rather than min-height: a tall min-height on footer link
+   lists balloons the column and wrecks the footer's vertical rhythm. */
+.nav-links a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
 }
 
-.footer-links li,
-.footer-contact p {
-    display: flex;
+/* Scoped to text links only — `.footer-contact a` would also match the
+   social icon buttons and break their flex centring. */
+.footer-links a,
+.footer-contact p a,
+.footer-legal a,
+.article-breadcrumb a {
+    display: inline-block;
+    padding-block: 5px;
 }
 
-.related-article-card {
-    display: block;
-}
-
-.back-link {
-    padding: 4px 0;
+/* The link padding above adds ~10px per row, so trim the list gap to keep the
+   footer's original vertical rhythm. */
+.footer-links ul {
+    gap: 4px;
 }
 
 /* The card-covering overlay link needs no height of its own. */
@@ -4699,4 +4707,366 @@ pre code {
 /* Inline <code> outside a <pre> wraps instead of overflowing. */
 :not(pre) > code {
     overflow-wrap: anywhere;
+}
+
+/* --- 20. Elements that relied on raw HTML whitespace for separation -------- */
+
+/* The back link sits on its own row — its 24px bottom margin always intended
+   the badge and heading to follow beneath it, not alongside. */
+.back-link {
+    display: flex;
+    width: fit-content;
+    padding-block: 4px;
+}
+
+/* Breadcrumb built from <a>/<span> elements with no styles in the original
+   sheet; the separators only had HTML whitespace holding them apart. */
+.breadcrumb .container,
+.article-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.breadcrumb {
+    padding-top: clamp(84px, 20vw, 110px);
+}
+
+.breadcrumb .container {
+    font-size: clamp(0.78rem, 3vw, 0.9rem);
+    color: var(--text-secondary);
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    padding-block: 5px;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary);
+}
+
+/* Previous / next article pagination — also unstyled in the original. */
+.article-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: clamp(20px, 5vw, 32px);
+}
+
+.article-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-card);
+    color: var(--primary);
+    font-size: clamp(0.85rem, 3vw, 0.95rem);
+    font-weight: 500;
+    transition: all var(--transition-fast);
+}
+
+.article-nav a:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.article-nav .next-article {
+    margin-left: auto;
+    text-align: right;
+}
+
+/* "Email:" / "Phone:" labels immediately followed by a link. */
+.legal-section li > strong + a,
+.legal-section p > strong + a {
+    margin-left: 0.35em;
+}
+
+/* Cards stretch to equal height in the grid, but their content doesn't, so
+   the footer row landed at a different height in each card. Pin it to the
+   bottom so durations and buttons line up across a row. */
+.program-card,
+.career-card,
+.curriculum-module,
+.why-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.program-card .program-footer {
+    margin-top: auto;
+}
+
+.program-card .program-skills {
+    margin-bottom: clamp(16px, 4vw, 24px);
+}
+
+/* ============================================================================
+   HOME PAGE — 2026 refresh
+   Palette and type are unchanged; the work here is structure and restraint.
+   ============================================================================ */
+
+/* --- Gradient text, used once ---------------------------------------------
+   It appeared in six section headings, which turns a signature into
+   wallpaper. The hero keeps it; everything else gets solid ink so the
+   hierarchy comes from size and weight instead. */
+.about .gradient-text,
+.programs .gradient-text,
+.why-us .gradient-text,
+.contact .gradient-text,
+.register .gradient-text {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+    color: var(--primary);
+}
+
+.register .gradient-text {
+    color: var(--primary-light);
+}
+
+/* --- Why Us: the benefit cards -------------------------------------------- */
+
+
+/* ============================================================================
+   LANDING PAGE — UI refinement
+   Presentation only: no content, copy, palette or typeface changes. Every
+   selector is scoped to a section that exists solely on the home page
+   (.hero, .about, .programs, .why-us, .contact, .register), so the 209
+   course and article pages are untouched.
+   ============================================================================ */
+
+/* --- Hero: content-driven height ------------------------------------------
+   The 100vh min-height centred a ~500px block in a 900px viewport, leaving
+   ~200px of dead space above and below. Height now follows the content. */
+.hero {
+    min-height: 0;
+    padding: clamp(116px, 16vw, 164px) 0 clamp(84px, 12vw, 128px);
+}
+
+/* A faint grid gives the flat gradient some material and depth. */
+.hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 75%);
+}
+
+.hero-title {
+    letter-spacing: -0.03em;
+}
+
+.hero-subtitle {
+    line-height: 1.7;
+}
+
+/* --- Display type: tighter tracking ---------------------------------------
+   Space Grotesk at large sizes sits loose by default; negative tracking is
+   what makes a display face look set rather than merely rendered. */
+.about .section-title,
+.programs .section-title,
+.why-us .section-title,
+.contact .section-title,
+.register .section-title {
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+}
+
+.about .section-subtitle,
+.programs .section-subtitle,
+.why-us .section-subtitle {
+    max-width: 46ch;
+    margin-inline: auto;
+    line-height: 1.65;
+}
+
+/* --- Eyebrow pills --------------------------------------------------------- */
+
+.about .section-badge,
+.programs .section-badge,
+.why-us .section-badge,
+.contact .section-badge,
+.register .section-badge {
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    /* 11px floor — uppercase at tight tracking gets hard to read below that. */
+    font-size: clamp(11px, 2.4vw, 12px);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    background: rgba(99, 102, 241, 0.07);
+}
+
+.register .section-badge {
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* --- Cards: real depth instead of a flat 1px outline ---------------------- */
+
+.programs .program-card,
+.why-us .benefit-card {
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    border-radius: 18px;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 8px 24px -12px rgba(15, 23, 42, 0.10);
+    transition:
+        transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 320ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 320ms ease;
+}
+
+.programs .program-card:hover,
+.why-us .benefit-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow:
+        0 2px 4px rgba(15, 23, 42, 0.04),
+        0 22px 44px -20px rgba(99, 102, 241, 0.42);
+}
+
+/* Program icon: a lit tile rather than a flat tint. */
+.programs .program-icon {
+    border-radius: 14px;
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.16), rgba(139, 92, 246, 0.09));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.programs .program-title {
+    letter-spacing: -0.015em;
+}
+
+.programs .program-skills li {
+    background: rgba(15, 23, 42, 0.04);
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    border-radius: 7px;
+}
+
+/* --- Comparison: give the CODiiN side the weight the argument deserves ---- */
+
+.why-us .comparison-card {
+    border-radius: 18px;
+}
+
+.why-us .comparison-card.traditional {
+    opacity: 1;
+    background: rgba(15, 23, 42, 0.015);
+    border: 1px solid rgba(15, 23, 42, 0.07);
+    box-shadow: none;
+    color: var(--text-light);
+}
+
+.why-us .comparison-card.codiin {
+    box-shadow:
+        0 2px 6px rgba(15, 23, 42, 0.05),
+        0 28px 56px -28px rgba(99, 102, 241, 0.5);
+}
+
+.why-us .vs-badge {
+    box-shadow:
+        0 0 0 7px var(--bg-secondary),
+        0 10px 24px -8px rgba(99, 102, 241, 0.6);
+}
+
+/* The numerals are a label, not a headline — dial them back. */
+.why-us .benefit-number {
+    font-size: clamp(26px, 5vw, 34px);
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+}
+
+/* --- Forms: quieter fields, clearer focus --------------------------------- */
+
+.contact .form-group input,
+.contact .form-group textarea,
+.contact .form-group select,
+.register .form-group input,
+.register .form-group textarea,
+.register .form-group select {
+    background: rgba(15, 23, 42, 0.025);
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    border-radius: 10px;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+
+.contact .form-group input:hover,
+.contact .form-group textarea:hover,
+.contact .form-group select:hover,
+.register .form-group input:hover,
+.register .form-group textarea:hover,
+.register .form-group select:hover {
+    border-color: rgba(15, 23, 42, 0.18);
+}
+
+.contact .form-group input:focus,
+.contact .form-group textarea:focus,
+.contact .form-group select:focus,
+.register .form-group input:focus,
+.register .form-group textarea:focus,
+.register .form-group select:focus {
+    background: var(--bg-primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.13);
+}
+
+.contact .contact-form-container,
+.register .register-form-container {
+    border-radius: 20px;
+    box-shadow:
+        0 2px 6px rgba(15, 23, 42, 0.05),
+        0 32px 64px -32px rgba(15, 23, 42, 0.30);
+}
+
+.contact .contact-icon {
+    border-radius: 13px;
+    background: linear-gradient(145deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.08));
+}
+
+.contact .social-link {
+    border-radius: 12px;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background 220ms ease;
+}
+
+.contact .social-link:hover {
+    transform: translateY(-3px);
+}
+
+/* --- About: soften the illustration card ---------------------------------- */
+
+.about .floating-badge {
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    box-shadow: 0 10px 28px -12px rgba(15, 23, 42, 0.30);
+}
+
+.about .feature-icon {
+    border-radius: 14px;
+    box-shadow: 0 8px 20px -10px rgba(99, 102, 241, 0.7);
+}
+
+/* --- Buttons: a touch more presence --------------------------------------- */
+
+.hero .btn-primary,
+.register .btn-primary,
+.contact .btn-primary {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.10), 0 10px 26px -10px rgba(99, 102, 241, 0.75);
+}
+
+.hero .btn-primary:hover,
+.register .btn-primary:hover,
+.contact .btn-primary:hover {
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.10), 0 16px 34px -12px rgba(99, 102, 241, 0.9);
+}
+
+@media (hover: none) {
+    .programs .program-card:hover,
+    .why-us .benefit-card:hover,
+    .contact .social-link:hover {
+        transform: none;
+    }
 }
