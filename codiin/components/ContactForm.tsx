@@ -1,74 +1,90 @@
 "use client";
 
-import { useState, type FormEvent, type FocusEvent } from "react";
-import {
-  submitForm,
-  validateForm,
-  validateValue,
-  type FieldErrors,
-  type FieldSpec,
-} from "@/lib/form";
-import { ErrorMessage, FieldLabel, PROGRAM_OPTIONS } from "./FormField";
+import { useState } from "react";
 import SuccessModal from "./SuccessModal";
 
-const FIELDS: FieldSpec[] = [
-  { name: "name", type: "text", required: true },
-  { name: "email", type: "email", required: true },
-  { name: "phone", type: "tel", required: false },
-  { name: "message", type: "text", required: true },
+const PROGRAMS = [
+  "Data Science",
+  "Agentic AI",
+  "Data Analytics",
+  "Data Engineering",
+  "Full Stack Python (Django/FastAPI)",
+  "Full Stack Java (Spring Boot)",
+  "Full Stack JavaScript (MERN/MEAN)",
+  "Full Stack .NET (ASP.NET Core)",
+  "Hybrid Mobile Apps (React Native/Flutter)",
+  "Other / Not Sure",
 ];
 
-const SUCCESS =
-  "Your message has been sent successfully. We'll get back to you soon!";
-
-export default function ContactForm() {
-  const [errors, setErrors] = useState<FieldErrors>({});
+const ContactForm = () => {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    interest: "",
+    message: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [done, setDone] = useState(false);
 
-  const spec = (name: string) => FIELDS.find((f) => f.name === name);
-
-  const handleBlur = (
-    e: FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-  ) => {
-    const field = spec(e.target.name);
-    if (!field) return;
-    const message = validateValue(e.target.value, field.type, field.required);
-    setErrors((prev) => ({ ...prev, [field.name]: message }));
+  const check = (name: string, value: string) => {
+    const v = value.trim();
+    if (name === "name" && !v) return "This field is required";
+    if (name === "message" && !v) return "This field is required";
+    if (name === "email") {
+      if (!v) return "This field is required";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
+        return "Please enter a valid email address";
+    }
+    if (name === "phone" && v && !/^[\d\s+\-()]{10,}$/.test(v))
+      return "Please enter a valid phone number";
+    return "";
   };
 
   const handleChange = (
-    e: FormEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
-    const target = e.currentTarget;
-    // Only re-validate a field that is already showing an error, matching
-    // the original behaviour.
-    if (!errors[target.name]) return;
-    const field = spec(target.name);
-    if (!field) return;
-    const message = validateValue(target.value, field.type, field.required);
-    setErrors((prev) => ({ ...prev, [target.name]: message }));
+    const { name, value } = e.target;
+    setValues((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: check(name, value) }));
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target;
+    setErrors((prev) => ({ ...prev, [name]: check(name, value) }));
+  };
 
-    const found = validateForm(form, FIELDS);
-    setErrors(found);
-    if (Object.keys(found).length > 0) {
-      const first = form.elements.namedItem(
-        Object.keys(found)[0],
-      ) as HTMLElement | null;
-      first?.focus();
-      return;
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const found: Record<string, string> = {};
+    for (const name of ["name", "email", "phone", "message"]) {
+      const message = check(name, values[name as keyof typeof values]);
+      if (message) found[name] = message;
     }
+    setErrors(found);
+    if (Object.keys(found).length) return;
 
     setSending(true);
     try {
-      await submitForm(form);
-      form.reset();
-      setModalOpen(true);
+      const data = new FormData();
+      data.append("_subject", "New Contact Inquiry - CODiiN");
+      data.append("_captcha", "false");
+      data.append("_template", "table");
+      Object.entries(values).forEach(([k, v]) => data.append(k, v));
+
+      const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error("failed");
+
+      setValues({ name: "", email: "", phone: "", interest: "", message: "" });
+      setDone(true);
     } catch {
       window.alert(
         "Sorry, there was an error submitting the form. Please try again or contact us directly at contact@codiin.com",
@@ -78,123 +94,110 @@ export default function ContactForm() {
     }
   };
 
-  const cls = (name: string) => (errors[name] ? "error" : undefined);
-
   return (
     <>
-      <form
-        className="contact-form"
-        id="contactForm"
-        onSubmit={handleSubmit}
-        noValidate
-      >
-        <input
-          type="hidden"
-          name="_subject"
-          value="New Contact Inquiry - CODiiN"
-        />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_template" value="table" />
-
+      <form className="contact-form" onSubmit={handleSubmit} noValidate>
         <h3>Send us a Message</h3>
 
         <div className="form-group">
-          <FieldLabel htmlFor="contactName" required>
-            Full Name
-          </FieldLabel>
+          <label htmlFor="contactName">
+            Full Name <span className="required">*</span>
+          </label>
           <input
             type="text"
             id="contactName"
             name="name"
             placeholder="Your name"
             autoComplete="name"
-            className={cls("name")}
-            aria-invalid={!!errors.name}
-            onBlur={handleBlur}
+            className={errors.name ? "error" : undefined}
+            value={values.name}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
-          <ErrorMessage message={errors.name} />
+          {errors.name && <div className="error-message">{errors.name}</div>}
         </div>
 
         <div className="form-row">
           <div className="form-group">
-            <FieldLabel htmlFor="contactEmail" required>
-              Email
-            </FieldLabel>
+            <label htmlFor="contactEmail">
+              Email <span className="required">*</span>
+            </label>
             <input
               type="email"
               id="contactEmail"
               name="email"
               placeholder="your@email.com"
               autoComplete="email"
-              className={cls("email")}
-              aria-invalid={!!errors.email}
-              onBlur={handleBlur}
+              className={errors.email ? "error" : undefined}
+              value={values.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            <ErrorMessage message={errors.email} />
+            {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
           <div className="form-group">
-            <FieldLabel htmlFor="contactPhone">Phone</FieldLabel>
+            <label htmlFor="contactPhone">Phone</label>
             <input
               type="tel"
               id="contactPhone"
               name="phone"
               placeholder="+91 83018 90158"
               autoComplete="tel"
-              className={cls("phone")}
-              aria-invalid={!!errors.phone}
-              onBlur={handleBlur}
+              className={errors.phone ? "error" : undefined}
+              value={values.phone}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            <ErrorMessage message={errors.phone} />
+            {errors.phone && <div className="error-message">{errors.phone}</div>}
           </div>
         </div>
 
         <div className="form-group">
           <label htmlFor="contactInterest">Interested In</label>
-          <select id="contactInterest" name="interest" defaultValue="">
+          <select
+            id="contactInterest"
+            name="interest"
+            value={values.interest}
+            onChange={handleChange}
+          >
             <option value="">Select a program</option>
-            {PROGRAM_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
+            {PROGRAMS.map((p) => (
+              <option key={p} value={p}>
+                {p}
               </option>
             ))}
-            <option value="Other">Other / Not Sure</option>
           </select>
         </div>
 
         <div className="form-group">
-          <FieldLabel htmlFor="contactMessage" required>
-            Message
-          </FieldLabel>
+          <label htmlFor="contactMessage">
+            Message <span className="required">*</span>
+          </label>
           <textarea
             id="contactMessage"
             name="message"
             rows={4}
             placeholder="Tell us about your goals..."
-            className={cls("message")}
-            aria-invalid={!!errors.message}
-            onBlur={handleBlur}
+            className={errors.message ? "error" : undefined}
+            value={values.message}
             onChange={handleChange}
+            onBlur={handleBlur}
           />
-          <ErrorMessage message={errors.message} />
+          {errors.message && <div className="error-message">{errors.message}</div>}
         </div>
 
-        <button
-          type="submit"
-          className="btn btn-primary btn-block"
-          disabled={sending}
-        >
+        <button type="submit" className="btn btn-primary btn-block" disabled={sending}>
           {sending ? "Sending..." : "Send Message"}
         </button>
       </form>
 
       <SuccessModal
-        open={modalOpen}
-        message={SUCCESS}
-        onClose={() => setModalOpen(false)}
+        open={done}
+        message="Your message has been sent successfully. We'll get back to you soon!"
+        onClose={() => setDone(false)}
       />
     </>
   );
-}
+};
+
+export default ContactForm;

@@ -4470,18 +4470,6 @@ textarea:focus-visible {
 
 /* --- 17. Component states previously injected by script.js ----------------- */
 
-/* Scroll reveal (ScrollReveal.tsx adds .reveal on mount, .visible in view) */
-.reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
 /* Inline validation feedback */
 .error-message {
     color: var(--error);

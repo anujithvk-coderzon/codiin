@@ -1,7 +1,7 @@
 /**
  * Renders a schema.org JSON-LD block.
  *
- * The payload is built from static site data in `lib/schema.ts`, never from
+ * The payload is static, author-controlled site data — never
  * user input, and is serialised with `<` escaped so it cannot terminate the
  * surrounding script tag.
  */

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import GoBackButton from "@/components/GoBackButton";
 import { PROGRAMS } from "@/lib/site";
 
 const POPULAR = [
@@ -28,7 +27,9 @@ export default function NotFound() {
           <Link href="/" className="btn-primary">
             Go to Homepage
           </Link>
-          <GoBackButton />
+          <Link href="/#programs" className="btn-secondary">
+            Browse Programs
+          </Link>
         </div>
 
         <div className="popular-links">
