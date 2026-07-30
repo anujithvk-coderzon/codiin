@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import Footer from "@/components/Footer";
@@ -241,6 +242,17 @@ export default function DataAnalyticsPage() {
                   {"Talk to Mentor"}
                 </Link>
               </div>
+            </div>
+
+            <div className="program-hero-visual">
+              <Image
+                src="/img/programs/data-analytics.png"
+                alt="Data Analytics — the tools and techniques covered in this program"
+                className="program-hero-img"
+                width={512}
+                height={512}
+                priority
+              />
             </div>
           </div>
         </section>

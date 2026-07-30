@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { CareerIcon, MentorshipIcon, ProjectsIcon } from "../Icons";
 
 const FEATURES = [
@@ -64,45 +65,13 @@ export default function About() {
           </div>
 
           <div className="about-image">
-            <div className="image-card">
-              <div className="mentor-illustration">
-                <div className="mentor-circle">
-                  <svg viewBox="0 0 200 200" className="mentor-svg" aria-hidden="true">
-                    <defs>
-                      <linearGradient
-                        id="gradient1"
-                        x1="0%"
-                        y1="0%"
-                        x2="100%"
-                        y2="100%"
-                      >
-                        <stop offset="0%" style={{ stopColor: "#6366f1" }} />
-                        <stop offset="100%" style={{ stopColor: "#8b5cf6" }} />
-                      </linearGradient>
-                    </defs>
-                    <circle
-                      cx="100"
-                      cy="100"
-                      r="90"
-                      fill="url(#gradient1)"
-                      opacity="0.1"
-                    />
-                    <circle cx="100" cy="70" r="30" fill="url(#gradient1)" />
-                    <path
-                      d="M50 150 Q100 120 150 150"
-                      stroke="url(#gradient1)"
-                      strokeWidth="40"
-                      fill="none"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-                <div className="floating-badge badge-1">Full Stack</div>
-                <div className="floating-badge badge-2">AI/ML</div>
-                <div className="floating-badge badge-3">Data Science</div>
-                <div className="floating-badge badge-4">Mobile Apps</div>
-              </div>
-            </div>
+            <Image
+              src="/img/about.png"
+              alt="The disciplines CODiiN mentors: Gen-AI, Agentic AI, Full Stack, Data Science, Data Analytics, Big Data, Cloud, Mobile App Development and Cyber Security"
+              className="about-img"
+              width={512}
+              height={512}
+            />
           </div>
         </div>
       </div>

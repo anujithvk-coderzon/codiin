@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CareerIcon, MentorshipIcon, ProjectsIcon } from "../Icons";
 
@@ -42,43 +43,14 @@ export default function Hero() {
         </div>
 
         <div className="hero-visual">
-          <div className="code-window">
-            <div className="code-header">
-              <span className="dot red" />
-              <span className="dot yellow" />
-              <span className="dot green" />
-            </div>
-            <div className="code-body">
-              <pre>
-                <code>
-                  <span className="keyword">const</span>
-                  {" "}
-                  <span className="variable">yourFuture</span>
-                  {" = {\n  "}
-                  <span className="property">skills</span>
-                  {": ["}
-                  <span className="string">&quot;Full Stack&quot;</span>
-                  {", "}
-                  <span className="string">&quot;AI&quot;</span>
-                  {", "}
-                  <span className="string">&quot;Data&quot;</span>
-                  {"],\n  "}
-                  <span className="property">mentor</span>
-                  {": "}
-                  <span className="string">&quot;CODiiN Expert&quot;</span>
-                  {",\n  "}
-                  <span className="property">success</span>
-                  {": "}
-                  <span className="boolean">true</span>
-                  {"\n};\n\n"}
-                  <span className="keyword">await</span>
-                  {" "}
-                  <span className="function">transform</span>
-                  {"(yourFuture);"}
-                </code>
-              </pre>
-            </div>
-          </div>
+          <Image
+            src="/img/hero.png"
+            alt="A developer at work, with the CODiiN code on screen"
+            className="hero-image"
+            width={512}
+            height={512}
+            priority
+          />
         </div>
       </div>
       <div className="scroll-indicator" aria-hidden="true">

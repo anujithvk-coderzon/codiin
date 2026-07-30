@@ -25,7 +25,7 @@ export default function PrivacyPolicyPage() {
       <Navbar links={NAV_LINKS} />
 
       <main>
-        <section className="page-hero" style={{ "paddingTop": "120px", "paddingBottom": "60px" }}>
+        <section className="page-hero">
           <div className="container">
             <h1>
               {"Privacy Policy"}

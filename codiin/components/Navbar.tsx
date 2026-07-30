@@ -125,8 +125,8 @@ export default function Navbar({
               src="/img/codiin-logo.png"
               alt="CODiiN Tech Mentors Lab"
               className="logo-img"
-              width={144}
-              height={36}
+              width={315}
+              height={111}
               priority
             />
           </Link>

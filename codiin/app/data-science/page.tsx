@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
@@ -240,6 +241,17 @@ export default function DataSciencePage() {
                   {"Talk to Mentor"}
                 </Link>
               </div>
+            </div>
+
+            <div className="program-hero-visual">
+              <Image
+                src="/img/programs/data-science.png"
+                alt="Data Science — the tools and techniques covered in this program"
+                className="program-hero-img"
+                width={512}
+                height={512}
+                priority
+              />
             </div>
           </div>
         </section>

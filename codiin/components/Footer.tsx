@@ -26,13 +26,11 @@ function Brand({ withLocation }: { withLocation: boolean }) {
     <div className="footer-brand">
       <Link href="/" className="logo">
         <Image
-          src="/img/codiin-logo-light.svg"
+          src="/img/codiin-logo-light.png"
           alt="CODiiN Tech Mentors Lab"
           className="logo-img"
-          width={160}
-          height={40}
-          /* Next blocks SVG through the image optimizer; serve it as-is. */
-          unoptimized
+          width={315}
+          height={111}
         />
       </Link>
       <p>

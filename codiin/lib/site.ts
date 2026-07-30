@@ -39,16 +39,7 @@ export const PROGRAMS = [
   { slug: "hybrid-mobile-app", title: "Hybrid Mobile Apps" },
 ] as const;
 
-export type ProgramSlug = (typeof PROGRAMS)[number]["slug"];
-
-/** How many published guides each track has, and the site-wide total. */
-export function guideCount(slug: string, articles: Record<string, string[]>) {
-  return articles[slug]?.length ?? 0;
-}
-
-export function totalGuides(articles: Record<string, string[]>) {
-  return Object.values(articles).reduce((n, list) => n + list.length, 0);
-}
+type ProgramSlug = (typeof PROGRAMS)[number]["slug"];
 
 /**
  * Programs grouped the way the article-page footer lists them. Listed by

@@ -261,42 +261,6 @@ h1, h2, h3, h4, h5, h6 {
     height: 40px;
 }
 
-.logo-text {
-    font-family: var(--font-display);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-}
-
-.logo-i {
-    position: relative;
-    display: inline-block;
-}
-
-.logo-i::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 5px;
-    height: 5px;
-    background: #ef4444;
-    border-radius: 50%;
-}
-
-.logo-highlight {
-    color: var(--primary);
-}
-
-.logo-tagline {
-    font-size: 11px;
-    color: var(--text-secondary);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
 
 .nav-links {
     display: flex;
@@ -453,55 +417,8 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
 }
 
-.code-window {
-    background: rgba(15, 23, 42, 0.9);
-    border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    box-shadow: var(--shadow-xl), var(--shadow-glow);
-    width: 100%;
-    max-width: 480px;
-}
 
-.code-header {
-    display: flex;
-    gap: 8px;
-    padding: 16px 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
-
-.dot.red { background: #ff5f57; }
-.dot.yellow { background: #febc2e; }
-.dot.green { background: #28c840; }
-
-.code-body {
-    padding: 24px;
-}
-
-.code-body pre {
-    margin: 0;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 14px;
-    line-height: 1.8;
-}
-
-.code-body code {
-    color: #e2e8f0;
-}
-
-.keyword { color: #c792ea; }
 .variable { color: #82aaff; }
-.property { color: #f78c6c; }
-.string { color: #c3e88d; }
-.boolean { color: #ff9cac; }
-.function { color: #82aaff; }
 
 /* Scroll Indicator */
 .scroll-indicator {
@@ -604,63 +521,6 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: center;
 }
 
-.image-card {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-}
-
-.mentor-illustration {
-    position: relative;
-    padding: 40px;
-}
-
-.mentor-circle {
-    width: 280px;
-    height: 280px;
-    margin: 0 auto;
-}
-
-.mentor-svg {
-    width: 100%;
-    height: 100%;
-}
-
-.floating-badge {
-    position: absolute;
-    padding: 10px 18px;
-    background: white;
-    border-radius: var(--radius-full);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-    box-shadow: var(--shadow-lg);
-    animation: float 3s ease-in-out infinite;
-}
-
-.badge-1 {
-    top: 20%;
-    left: 0;
-    animation-delay: 0s;
-}
-
-.badge-2 {
-    top: 10%;
-    right: 0;
-    animation-delay: 1s;
-}
-
-.badge-3 {
-    bottom: 20%;
-    left: 10%;
-    animation-delay: 2s;
-}
-
-.badge-4 {
-    bottom: 10%;
-    right: 5%;
-    animation-delay: 1.5s;
-}
 
 @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -700,22 +560,6 @@ h1, h2, h3, h4, h5, h6 {
     border-color: var(--primary-light);
 }
 
-.program-card.featured {
-    border: 2px solid var(--primary);
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
-}
-
-.program-badge {
-    position: absolute;
-    top: -12px;
-    right: 24px;
-    padding: 6px 14px;
-    background: var(--gradient-primary);
-    color: white;
-    font-size: 12px;
-    font-weight: 600;
-    border-radius: var(--radius-full);
-}
 
 .program-icon {
     width: 56px;
@@ -1449,10 +1293,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     /* Hide nav-cta button on mobile - it's outside the mobile menu */
-    .nav-cta {
-        display: none;
-    }
-
+    
     /* Mobile menu overlay */
     .nav-links::before {
         content: '';
@@ -1640,10 +1481,6 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 20px;
 }
 
-.program-hero-badge.trending {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(139, 92, 246, 0.3));
-    border-color: rgba(139, 92, 246, 0.5);
-}
 
 .program-hero h1 {
     font-size: clamp(40px, 6vw, 56px);
@@ -1851,25 +1688,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: var(--section-padding) 0;
 }
 
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-}
-
-.project-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-lg);
-    padding: 32px;
-    transition: all var(--transition-base);
-}
-
-.project-card:hover {
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-4px);
-    border-color: var(--primary-light);
-}
 
 .project-icon {
     width: 56px;
@@ -1888,17 +1706,6 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary);
 }
 
-.project-card h3 {
-    font-size: 20px;
-    margin-bottom: 12px;
-}
-
-.project-card > p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
 
 .project-tech {
     display: flex;
@@ -2103,10 +1910,7 @@ h1, h2, h3, h4, h5, h6 {
         grid-template-columns: 1fr;
     }
 
-    .projects-grid {
-        grid-template-columns: 1fr;
     }
-}
 
 @media (max-width: 480px) {
     .program-hero h1 {
@@ -2276,8 +2080,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
 }
 
-.salary-badge,
-.demand-badge {
+.demand-badge{
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
     padding: 6px 12px;
@@ -3921,7 +3724,6 @@ html {
 .comparison-card,
 .why-card,
 .career-card,
-.project-card,
 .project-detailed-card,
 .curriculum-module,
 .sidebar-card,
@@ -3934,7 +3736,7 @@ html {
 .use-case-card,
 .related-article-card,
 .principle-card,
-.db-card {
+.db-card{
     padding: var(--card-pad);
 }
 
@@ -3970,10 +3772,9 @@ html {
 .career-grid,
 .why-learn-grid,
 .why-cards,
-.projects-grid,
 .projects-detailed-grid,
 .faq-grid,
-.tech-items {
+.tech-items{
     gap: clamp(14px, 3.5vw, 30px);
 }
 
@@ -4054,14 +3855,7 @@ html {
 }
 
 /* Code window must scroll, not stretch the page */
-.code-body {
-    padding: clamp(14px, 4vw, 24px);
-    overflow-x: auto;
-}
 
-.code-body pre {
-    font-size: clamp(11px, 2.9vw, 14px);
-}
 
 .hero-highlights {
     gap: clamp(14px, 4vw, 32px);
@@ -4069,20 +3863,6 @@ html {
 
 /* --- 7. About illustration -------------------------------------------------- */
 
-.mentor-illustration {
-    padding: clamp(18px, 7vw, 40px);
-}
-
-.mentor-circle {
-    width: min(280px, 62vw);
-    height: min(280px, 62vw);
-}
-
-.floating-badge {
-    font-size: clamp(10px, 2.7vw, 13px);
-    padding: clamp(6px, 2vw, 10px) clamp(10px, 3.4vw, 18px);
-    white-space: nowrap;
-}
 
 /* --- 8. Forms: 16px inputs prevent iOS focus-zoom -------------------------- */
 
@@ -4456,14 +4236,13 @@ textarea:focus-visible {
 /* Hover effects that shift layout are pointless (and janky) on touch */
 @media (hover: none) {
     .program-card:hover,
-    .benefit-card:hover,
-    .curriculum-module:hover,
-    .career-card:hover,
-    .why-card:hover,
-    .project-card:hover,
-    .article-section:hover,
-    .related-article-card:hover,
-    .btn:hover {
+.benefit-card:hover,
+.curriculum-module:hover,
+.career-card:hover,
+.why-card:hover,
+.article-section:hover,
+.related-article-card:hover,
+.btn:hover{
         transform: none;
     }
 }
@@ -4620,9 +4399,6 @@ textarea:focus-visible {
 /* --- 19. Legibility floors and tap targets (from the responsive audit) ---- */
 
 /* Nothing drops below 11px, even at 320px. */
-.floating-badge {
-    font-size: clamp(11px, 2.7vw, 13px);
-}
 
 .stat-label {
     font-size: clamp(11px, 2.7vw, 14px);
@@ -5027,10 +4803,6 @@ pre code {
 
 /* --- About: soften the illustration card ---------------------------------- */
 
-.about .floating-badge {
-    border: 1px solid rgba(15, 23, 42, 0.05);
-    box-shadow: 0 10px 28px -12px rgba(15, 23, 42, 0.30);
-}
 
 .about .feature-icon {
     border-radius: 14px;
@@ -5057,4 +4829,381 @@ pre code {
     .contact .social-link:hover {
         transform: none;
     }
+}
+
+/* Hero image — replaces the code window, keeps its rounded, lit treatment. */
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-width: 480px;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+/* About image — replaces the mentor illustration. */
+.about-img {
+    width: 100%;
+    height: auto;
+    max-width: 460px;
+    border-radius: var(--radius-lg);
+}
+
+/* ============================================================================
+   HERO + ABOUT — responsive pass (320px upward)
+   ============================================================================ */
+
+/* --- Hero CTAs -------------------------------------------------------------
+   These were `flex: 1 1 auto`, so the two buttons stretched to fill the whole
+   container — enormous at 1024px. Size them to their content instead, and only
+   go full width when there genuinely isn't room for two side by side. */
+.hero-cta .btn {
+    flex: 0 1 auto;
+    min-width: 160px;
+}
+
+@media (max-width: 400px) {
+    .hero-cta .btn {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+
+/* --- Hero vertical rhythm --------------------------------------------------- */
+
+.hero-title {
+    margin-bottom: clamp(14px, 3.5vw, 24px);
+}
+
+.hero-content .hero-badge {
+    margin-bottom: clamp(12px, 3.5vw, 24px);
+}
+
+/* Keep the highlight list a centred block rather than snapping to the left
+   edge on the narrowest screens, where the rest of the hero is centred. */
+@media (max-width: 1024px) {
+    .hero-highlights {
+        width: fit-content;
+        max-width: 100%;
+        margin-inline: auto;
+        align-items: flex-start;
+    }
+}
+
+/* --- Hero image ------------------------------------------------------------
+   Previously the visual was hidden below 1024px, which left the hero looking
+   half-empty on tablets. It now sits under the text instead. */
+@media (max-width: 1024px) {
+    .hero-visual {
+        display: flex;
+        margin-top: clamp(28px, 7vw, 48px);
+    }
+
+    .hero-image {
+        max-width: min(100%, 380px);
+    }
+}
+
+/* --- About ------------------------------------------------------------------ */
+
+.about-grid {
+    gap: clamp(28px, 6vw, 80px);
+}
+
+.about-lead {
+    font-size: clamp(16.5px, 4.2vw, 20px);
+    line-height: 1.6;
+    margin-bottom: clamp(14px, 3.5vw, 20px);
+}
+
+.about-content p {
+    margin-bottom: clamp(12px, 3vw, 16px);
+}
+
+.about-features {
+    margin-top: clamp(24px, 6vw, 40px);
+    gap: clamp(16px, 4vw, 24px);
+}
+
+.about-img {
+    max-width: min(100%, 460px);
+}
+
+/* Headings break across lines evenly instead of leaving one orphaned word
+   ("...Teach, We / Mentor"); body copy avoids a single-word last line. */
+.hero-title,
+.section-title,
+.program-hero h1,
+.article-hero h1 {
+    text-wrap: balance;
+}
+
+.hero-subtitle,
+.section-subtitle,
+.about-lead {
+    text-wrap: pretty;
+}
+
+/* ============================================================================
+   PROGRAM HERO — image beside the copy
+   Only the courses that have artwork become two-column; :has() keeps the
+   others (data-engineering, full-stack-dotnet) single-column with no extra
+   class needed per page.
+   ============================================================================ */
+
+.program-hero .container:has(.program-hero-visual) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(28px, 6vw, 56px);
+    align-items: center;
+}
+
+@media (min-width: 1024px) {
+    .program-hero .container:has(.program-hero-visual) {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+
+    /* The 700px cap is for a full-width hero; inside a column it just
+       creates an awkward gutter. */
+    .program-hero .container:has(.program-hero-visual) .program-hero-content {
+        max-width: none;
+    }
+}
+
+.program-hero-visual {
+    display: flex;
+    justify-content: center;
+    min-width: 0;
+}
+
+.program-hero-img {
+    width: 100%;
+    height: auto;
+    max-width: min(100%, 440px);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+@media (max-width: 1023px) {
+    .program-hero-img {
+        max-width: min(100%, 380px);
+    }
+}
+
+/* ============================================================================
+   FLUID SPACING SWEEP
+   Every value below was measured as identical at 320px and 1440px — i.e. it
+   never scaled. Tap-target min-heights are deliberately excluded; those must
+   not shrink.
+   ============================================================================ */
+
+/* --- Legal page hero -------------------------------------------------------
+   These two pages carried inline paddingTop:120px from the original HTML,
+   which no stylesheet could override. Now class-driven and fluid. */
+.page-hero {
+    padding: clamp(92px, 21vw, 130px) 0 clamp(28px, 7vw, 60px);
+    background: var(--bg-secondary);
+}
+
+.page-hero h1 {
+    font-size: clamp(26px, 6.4vw, 44px);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+}
+
+.page-hero .hero-subtitle {
+    margin-bottom: 0;
+    color: var(--text-secondary);
+}
+
+/* --- Section-level rhythm --------------------------------------------------- */
+
+.comparison-grid {
+    margin-bottom: clamp(28px, 7vw, 60px);
+}
+
+.why-learn-grid,
+.why-cards {
+    margin-bottom: clamp(26px, 6vw, 48px);
+}
+
+.tech-categories {
+    gap: clamp(26px, 6vw, 40px);
+}
+
+.skills-category,
+.skill-category {
+    margin-bottom: clamp(20px, 5vw, 32px);
+}
+
+/* --- Program hero copy ------------------------------------------------------ */
+
+.program-hero-desc {
+    margin-bottom: clamp(18px, 4.5vw, 32px);
+}
+
+.program-hero-meta {
+    margin-bottom: clamp(20px, 5vw, 32px);
+    gap: clamp(12px, 3.5vw, 24px);
+}
+
+/* --- Contact / footer ------------------------------------------------------- */
+
+.social-links {
+    margin-top: clamp(22px, 6vw, 40px);
+}
+
+.contact-details {
+    gap: clamp(16px, 4vw, 24px);
+}
+
+.contact-info > p {
+    margin-bottom: clamp(20px, 5vw, 40px);
+}
+
+.footer-bottom {
+    padding-top: clamp(20px, 5vw, 40px);
+}
+
+/* --- Odds and ends --------------------------------------------------------- */
+
+.tech-logo {
+    font-size: clamp(24px, 5.5vw, 32px);
+}
+
+.module-number {
+    font-size: clamp(21px, 5vw, 28px);
+}
+
+.error-message {
+    margin-bottom: clamp(20px, 5vw, 32px);
+}
+
+.popular-links {
+    padding-top: clamp(20px, 5vw, 32px);
+}
+
+/* Unclassed headings and paragraphs inside converted article bodies — a few
+   pages use bare <h2>/<p> outside .article-section. */
+.article-content h2,
+.legal-content h2 {
+    margin-bottom: clamp(16px, 4vw, 32px);
+}
+
+.article-content > .container > p,
+.page-hero + * p:not([class]) {
+    margin-bottom: clamp(14px, 3.5vw, 24px);
+}
+
+/* ==========================================================================
+   FLUID LEADING SWEEP
+   Headings carry display leading (1.1–1.2), which is right when the type is
+   large. Below ~1024px the fluid sizes fall to 15–24px — body-text territory —
+   and at 320px most headings wrap to two or three lines, where that same
+   leading reads as cramped. Leading here scales inversely with size instead.
+   ========================================================================== */
+
+/* Fixed-size headings. These never grow past ~22px, so tight leading is wrong
+   at every width, not just on mobile. */
+.tech-item h4,
+.tech-info h4,
+.related-article-card h4,
+.audience-item h3,
+.module-header h3,
+.legal-section h3 {
+    line-height: 1.4;
+}
+
+.companies-using h3 {
+    line-height: 1.35;
+}
+
+.tech-category h3 {
+    line-height: 1.3;
+}
+
+/* Fluid headings. Additive leading — the em part shrinks with the font while
+   the rem part stays put, so the ratio rises as the heading gets smaller:
+   ~1.36 at 23px, ~1.14 at 48px. One declaration, correct at every width, with
+   no breakpoint that is slightly wrong on both sides of it. */
+.section-title,
+.cta-content h2,
+.cta-section h2,
+.concept-section h2,
+.legal-section h2,
+.faq-item h3,
+.why-card h3,
+.project-detailed-card h3,
+.article-hero h1,
+.article-body h2,
+.article-body h3,
+.article-section h2,
+.article-section h3,
+.error-title {
+    line-height: calc(0.94em + 0.61rem);
+}
+
+/* Tap targets. Both of these are anchors that sit inside the padded element
+   rather than around it, so the padding never reaches the link's own box. */
+
+/* Markup is <a><h3>…</h3></a>, so the existing `.module-header h3 a` rule
+   never matched — the anchor is the parent, not the child. */
+.module-header a {
+    display: block;
+    min-height: 24px;
+}
+
+/* The chip's padding lives on the span; hand it to the anchor so the whole
+   chip is clickable. */
+.career-skills span:has(> a) {
+    padding: 0;
+}
+
+.career-skills span > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 4px 10px;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* --- Fluid leading, part 2 -------------------------------------------------
+   Selectors the first pass missed, plus the ones it lost on specificity:
+   `.about .section-title` and friends are (0,2,0) and outrank a bare
+   `.section-title`, so the compound form has to be restated here. */
+
+.about .section-title,
+.programs .section-title,
+.why-us .section-title,
+.contact .section-title,
+.register .section-title,
+.contact-info .section-title,
+.register-content .section-title,
+.program-hero h1 {
+    line-height: calc(0.94em + 0.61rem);
+}
+
+/* Fixed-size article sub-headings: 15–19px at every width, so flat leading. */
+.concept-section h3,
+.concept-section h4,
+.best-practice h3,
+.when-to-use h4,
+.why-point h3,
+.highlight-box h4,
+.use-case-card h4 {
+    line-height: 1.4;
+}
+
+/* Fixed 24px. */
+.article-content > h2 {
+    line-height: 1.3;
+}
+
+/* The headline is fluid 27→60px and was the one piece of display type still on
+   flat 1.1. At 60px the calc below also lands on 1.1, so desktop is unchanged;
+   at 320px it opens up to ~1.29, which is what the wrapped lines need. */
+.hero-title {
+    line-height: calc(0.94em + 0.61rem);
 }
