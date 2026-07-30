@@ -82,12 +82,12 @@ const RegisterForm = () => {
 
       axios.post('/api/register',values)
 
-      // const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
-      //   method: "POST",
-      //   body: data,
-      //   headers: { Accept: "application/json" },
-      // });
-      // if (!res.ok) throw new Error("failed");
+      const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error("failed");
 
       setValues({ name: "", email: "", phone: "", program: "", experience: "" });
       setDone(true);
