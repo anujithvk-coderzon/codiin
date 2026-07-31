@@ -25,7 +25,10 @@
 
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    --gradient-hero: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+    /* Tuned to the artwork: the hero and course images average rgb(10,12,48)
+       at their edges, so the backdrop sits in the same deep indigo instead of
+       the old mid-slate, which made every image read as a dark block. */
+    --gradient-hero: linear-gradient(135deg, #070a24 0%, #141a44 50%, #090c2c 100%);
     --gradient-text: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
 
     /* Shadows */
@@ -5206,4 +5209,59 @@ pre code {
    at 320px it opens up to ~1.29, which is what the wrapped lines need. */
 .hero-title {
     line-height: calc(0.94em + 0.61rem);
+}
+
+/* ============================================================================
+   IMAGE BLENDING
+   The artwork was framed as a card — rounded corners, a hairline border and a
+   drop shadow — which is what made it read as a box pasted onto the page.
+   ============================================================================ */
+
+.hero-image,
+.program-hero-img,
+.about-img {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/* The nine course images carry their own transparency now — the PNGs in
+   public/img/programs were reprocessed so the artwork's own backdrop is alpha
+   0. That is why there is no rule for .program-hero-img here: there is no
+   rectangle left to mask, and no dark field left to blend away, so they render
+   normally and keep their authored colour and brightness.
+
+   Doing it in the asset rather than in CSS was the only thing that fully
+   worked. Each image has a different backdrop — near-black for most, a bright
+   blue gradient for two — so a single mask could never fit them all, and a
+   mask cannot remove a *bright* backdrop at any threshold. */
+
+/* The About artwork is a pale scene on a near-white section: multiply drops its
+   backdrop into the page colour, the mask feathers the frame. */
+.about-img {
+    -webkit-mask-image:
+        linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image:
+        linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%),
+        linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    mix-blend-mode: multiply;
+}
+
+/* The hero artwork is a lit room rather than an object on black, so it is the
+   one image whose backdrop could not be thresholded away — the ramp that
+   clears a black field also erases the desk, the walls and the figure, since
+   the whole scene is dim. What is baked into hero.png is a radial vignette
+   only, which is why there is no mask here: the asset has no straight edge
+   left to feather.
+
+   `screen` still earns its place — it drops the artwork's blacks into the
+   section so the room reads as lit from within the page. The filter pays back
+   the contrast screen flattens: lifting the blacks reads as a dimmer image
+   even though nothing was darkened. */
+.hero-image {
+    mix-blend-mode: screen;
+    filter: brightness(1.5) contrast(1.4) saturate(1.45);
 }
