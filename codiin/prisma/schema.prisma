@@ -29,3 +29,10 @@ model User {
   @@index([program])
   @@index([createdAt])
 }
+
+model Visit {
+  id        String   @id @default(uuid())
+  ip        String
+  createdAt DateTime @default(now())
+  @@index([createdAt,ip])
+}

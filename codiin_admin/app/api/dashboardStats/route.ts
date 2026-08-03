@@ -1,0 +1,18 @@
+
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/dist/server/web/spec-extension/response";
+
+export async function GET() {
+const today=new Date();
+today.setHours(0,0,0,0)
+  try {
+    const [todayEnquiryCount, todayVisitorCount] = await Promise.all([
+        prisma.user.count({where:{createdAt:{gte:today}}}),
+        prisma.visit.count({where:{createdAt:{gte:today}}})
+    ])
+    return NextResponse.json({enquiry:todayEnquiryCount,visits:todayVisitorCount})
+}catch (error) {
+    console.error("GET /api/dashboardStats failed:", error);
+    return new Response(null, { status: 500 });
+  }
+}

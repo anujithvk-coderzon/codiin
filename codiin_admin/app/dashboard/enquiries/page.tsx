@@ -102,7 +102,7 @@ const Page = () => {
         setTotal(res.data.total)
         return
         }
-        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}`);
+        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}&limit=10`);
         setRows((prev)=>[...prev,...res.data.data])
       } catch (err) {
         const message = isAxiosError(err)

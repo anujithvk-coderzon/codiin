@@ -30,19 +30,23 @@ const ContactForm = () => {
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
 
+  // Every field on this form is mandatory, so the empty check comes first and
+  // covers all of them — including the program select, whose placeholder
+  // option carries an empty value and so fails it like any blank input.
   const check = (name: string, value: string) => {
     const v = value.trim();
-    if (name === "name" && !v) return "This field is required";
-    if (name === "message" && !v) return "This field is required";
-    if (name === "email") {
-      if (!v) return "This field is required";
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
-        return "Please enter a valid email address";
-    }
-    if (name === "phone" && v && !/^[\d\s+\-()]{10,}$/.test(v))
+    if (!v)
+      return name === "program"
+        ? "Please select a program"
+        : "This field is required";
+    if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
+      return "Please enter a valid email address";
+    if (name === "phone" && !/^[\d\s+\-()]{10,}$/.test(v))
       return "Please enter a valid phone number";
     return "";
   };
+
+  const REQUIRED = ["name", "email", "phone", "program", "message"];
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -63,7 +67,7 @@ const ContactForm = () => {
     e.preventDefault();
 
     const found: Record<string, string> = {};
-    for (const name of ["name", "email", "phone", "message"]) {
+    for (const name of REQUIRED) {
       const message = check(name, values[name as keyof typeof values]);
       if (message) found[name] = message;
     }
@@ -78,12 +82,12 @@ const ContactForm = () => {
       data.append("_template", "table");
       Object.entries(values).forEach(([k, v]) => data.append(k, v));
      axios.post('/api/register',values)
-      // const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
-      //   method: "POST",
-      //   body: data,
-      //   headers: { Accept: "application/json" },
-      // });
-      // if (!res.ok) throw new Error("failed");
+      const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
+        method: "POST",
+        body: data,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error("failed");
 
       setValues({ type: "CONTACT", name: "", email: "", phone: "", program: "", message: "" });
       setDone(true);
@@ -138,7 +142,9 @@ const ContactForm = () => {
             {errors.email && <div className="error-message">{errors.email}</div>}
           </div>
           <div className="form-group">
-            <label htmlFor="contactPhone">Phone</label>
+            <label htmlFor="contactPhone">
+              Phone <span className="required">*</span>
+            </label>
             <input
               type="tel"
               id="contactPhone"
@@ -155,12 +161,16 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="contactInterest">Interested In</label>
+          <label htmlFor="contactInterest">
+            Interested In <span className="required">*</span>
+          </label>
           <select
             id="contactInterest"
             name="program"
+            className={errors.program ? "error" : undefined}
             value={values.program}
             onChange={handleChange}
+            onBlur={handleBlur}
           >
             <option value="">Select a program</option>
             {PROGRAMS.map((p) => (
@@ -169,6 +179,9 @@ const ContactForm = () => {
               </option>
             ))}
           </select>
+          {errors.program && (
+            <div className="error-message">{errors.program}</div>
+          )}
         </div>
 
         <div className="form-group">

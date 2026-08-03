@@ -22,6 +22,14 @@ model User {
   @@index([program])
 }
 
+model Visit {
+  id        String   @id
+  ip        String
+  createdAt DateTime @default(now())
+
+  @@index([createdAt, ip])
+}
+
 enum UserType {
   REGISTER
   CONTACT

@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(awk '/<tbody/,/<\\\\/tbody>/' app/dashboard/enquiries/page.tsx)",
+      "Bash(bc)",
+      "Bash(echo \"tsc exit: $?\")",
+      "Bash(awk '/const isOpen = open.has/,/^                    <\\\\/tbody>/' app/dashboard/enquiries/page.tsx)",
+      "Bash(npx eslint *)",
+      "Bash(timeout 400 npx next build)",
+      "Bash(grep -E \"^\\(Route|┌|├ [ƒ○]\\) /\\(\\\\s|$\\)|^├ ○ / |^┌ ○ / |Compiled|error|Error|✓|api/visitor|api/register\")",
+      "Bash(grep -nE \"○ /$|ƒ /api|Route \\\\\\(app\\\\\\)|error|Error\" /tmp/claude-1000/-mnt-d-CoderZone-codiin-new-site/b41fe3f7-1999-439f-86bb-37f2e4f69b94/tasks/bo2s32hrh.output)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(node -e \"const m=require\\('./.next/prerender-manifest.json'\\); console.log\\(JSON.stringify\\(m.routes['/']??'NOT PRERENDERED'\\)\\)\")"
+    ]
+  }
+}

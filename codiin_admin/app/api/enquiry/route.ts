@@ -5,8 +5,8 @@ export async function GET(req:NextRequest) {
     try {
         const searchparameter=req.nextUrl.searchParams;
         const page=Number(searchparameter.get('page'))
+        const take=Number(searchparameter.get('limit')) || 10
         const skip=(page - 1) * 10
-        const take=10
        const[data, total]=await Promise.all([
            prisma.user.findMany({
             skip,
