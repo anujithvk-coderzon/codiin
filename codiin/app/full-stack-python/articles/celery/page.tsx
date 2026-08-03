@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 
 const NAV_LINKS = [
   { href: "/#programs", label: "Programs" },
+  { href: "/internship", label: "Internship" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
   { href: "/full-stack-python", label: "Learn Full Stack Python", cta: true },

@@ -859,7 +859,11 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: var(--shadow-lg);
 }
 
-.contact-form h3 {
+/* .register-form is included because it never had a heading until the
+   internship form added one, so it inherited the global h3 margin and sat
+   almost flush against the first label. */
+.contact-form h3,
+.register-form h3 {
     font-size: 24px;
     margin-bottom: 32px;
 }
@@ -3881,7 +3885,8 @@ html {
     font-size: clamp(13px, 3.3vw, 14px);
 }
 
-.contact-form h3 {
+.contact-form h3,
+.register-form h3 {
     font-size: clamp(19px, 4.8vw, 24px);
     margin-bottom: clamp(18px, 5vw, 32px);
 }
@@ -5264,4 +5269,133 @@ pre code {
 .hero-image {
     mix-blend-mode: screen;
     filter: brightness(1.5) contrast(1.4) saturate(1.45);
+}
+
+/* ============================================================================
+   INTERNSHIP PAGE
+   Reuses .page-hero, .programs-grid, .program-card and .register-* from the
+   home page. Only the pieces with no existing equivalent are defined here.
+   ============================================================================ */
+
+/* Sections alternate white / tinted so the page reads as distinct bands. The
+   first draft ran .page-hero straight into .about, both of which are
+   --bg-secondary, so the two merged into one grey slab with a heading floating
+   in it. */
+.internship-highlights-section {
+    padding: var(--section-padding) 0;
+    background: var(--bg-primary);
+}
+
+.internship-steps-section {
+    padding: var(--section-padding) 0;
+    background: var(--bg-primary);
+}
+
+/* Two columns of cards rather than the plain stacked list this started as.
+   Four one-line points down the middle of a wide section is a lot of empty
+   space either side, and nothing to draw the eye to any of them. */
+.internship-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(14px, 2.5vw, 20px);
+    max-width: 900px;
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+}
+
+.internship-highlights li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: clamp(18px, 3vw, 22px);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+    /* .register-benefits, which this replaced, sets white text — it only ever
+       sits on the dark register band. On a light section the colour has to be
+       stated, not inherited. */
+    color: var(--text-secondary);
+    font-size: 15.5px;
+    line-height: 1.55;
+}
+
+.internship-highlights svg {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;
+    color: var(--success);
+}
+
+/* The track cards are links, so they need the anchor reset the static
+   .program-card never had to carry. */
+.internship-track-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+}
+
+.internship-track-card p {
+    flex: 1;
+}
+
+/* The whole card is the link, so the focus ring has to be on the card. The
+   .program-card it builds on was never focusable and so never needed one. */
+.internship-track-card:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+.internship-track-card:hover .internship-track-link {
+    color: var(--primary-dark, var(--primary));
+}
+
+.internship-track-link {
+    margin-top: 16px;
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.internship-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+    gap: clamp(20px, 4vw, 32px);
+    max-width: 1000px;
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+}
+
+.internship-steps li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.internship-step-number {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--primary);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.internship-steps h3 {
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+.internship-steps p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
 }

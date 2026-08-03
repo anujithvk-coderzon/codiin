@@ -18,6 +18,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const internship: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/internship`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+  ];
+
   const programs: MetadataRoute.Sitemap = PROGRAMS.map((p) => ({
     url: `${SITE_URL}/${p.slug}`,
     lastModified: now,
@@ -45,5 +54,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...home, ...programs, ...articles, ...legal];
+  return [...home, ...internship, ...programs, ...articles, ...legal];
 }

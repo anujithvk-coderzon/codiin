@@ -12,7 +12,17 @@
       "Bash(grep -E \"^\\(Route|┌|├ [ƒ○]\\) /\\(\\\\s|$\\)|^├ ○ / |^┌ ○ / |Compiled|error|Error|✓|api/visitor|api/register\")",
       "Bash(grep -nE \"○ /$|ƒ /api|Route \\\\\\(app\\\\\\)|error|Error\" /tmp/claude-1000/-mnt-d-CoderZone-codiin-new-site/b41fe3f7-1999-439f-86bb-37f2e4f69b94/tasks/bo2s32hrh.output)",
       "Bash(awk '{print $5, $9}')",
-      "Bash(node -e \"const m=require\\('./.next/prerender-manifest.json'\\); console.log\\(JSON.stringify\\(m.routes['/']??'NOT PRERENDERED'\\)\\)\")"
+      "Bash(node -e \"const m=require\\('./.next/prerender-manifest.json'\\); console.log\\(JSON.stringify\\(m.routes['/']??'NOT PRERENDERED'\\)\\)\")",
+      "Bash(pkill -f \"next dev -p 3300\")",
+      "Bash(pkill -f \"next-server\")",
+      "Bash(curl -s -m 2 -o /dev/null -w \"3300: %{http_code}\\\\n\" http://localhost:3300/)",
+      "Bash(cp app/globals.css /tmp/globals.css.bak)",
+      "Bash(head -5267 app/globals.css)",
+      "Bash(mv /tmp/globals.new app/globals.css)",
+      "Bash(grep -rl '{ href: \"/#programs\", label: \"Programs\" },' app/)",
+      "Bash(node -e \"const m=require\\('./.next/prerender-manifest.json'\\); console.log\\('/internship prerendered:', Boolean\\(m.routes['/internship']\\)\\)\")",
+      "Bash(timeout 500 npx next build)",
+      "Bash(awk '{print \"internship.html:\", $5, \"bytes\"}')"
     ]
   }
 }
