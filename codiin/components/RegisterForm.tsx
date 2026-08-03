@@ -26,7 +26,8 @@ const EXPERIENCE = [
 
 const RegisterForm = () => {
   const [values, setValues] = useState({
-     name: "",
+    type: "REGISTER",
+    name: "",
     email: "",
     phone: "",
     program:"",
@@ -89,7 +90,7 @@ const RegisterForm = () => {
       });
       if (!res.ok) throw new Error("failed");
 
-      setValues({ name: "", email: "", phone: "", program: "", experience: "" });
+      setValues({ type: "REGISTER", name: "", email: "", phone: "", program: "", experience: "" });
       setDone(true);
     } catch {
       window.alert(

@@ -9,13 +9,20 @@ datasource db {
 
 model User {
   id         String   @id
+  type       UserType
   name       String
   email      String
   phone      String
   program    String
-  createdAt  DateTime @default(now())
   experience String?
+  message    String?
+  createdAt  DateTime @default(now())
 
   @@index([createdAt])
   @@index([program])
+}
+
+enum UserType {
+  REGISTER
+  CONTACT
 }

@@ -11,14 +11,19 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-
+enum UserType {
+  REGISTER
+  CONTACT
+}
 model User {
   id         String   @id @default(uuid())
+  type       UserType    
   name       String
   email      String
   phone      String
   program    String
   experience String?
+  message    String?
   createdAt  DateTime @default(now())
 
   @@index([program])

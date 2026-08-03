@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import SuccessModal from "./SuccessModal";
+import axios from "axios";
 
 const PROGRAMS = [
   "Data Science",
@@ -18,10 +19,11 @@ const PROGRAMS = [
 
 const ContactForm = () => {
   const [values, setValues] = useState({
+    type: "CONTACT",
     name: "",
     email: "",
     phone: "",
-    interest: "",
+    program: "",
     message: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,15 +77,15 @@ const ContactForm = () => {
       data.append("_captcha", "false");
       data.append("_template", "table");
       Object.entries(values).forEach(([k, v]) => data.append(k, v));
+     axios.post('/api/register',values)
+      // const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
+      //   method: "POST",
+      //   body: data,
+      //   headers: { Accept: "application/json" },
+      // });
+      // if (!res.ok) throw new Error("failed");
 
-      const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
-      });
-      if (!res.ok) throw new Error("failed");
-
-      setValues({ name: "", email: "", phone: "", interest: "", message: "" });
+      setValues({ type: "CONTACT", name: "", email: "", phone: "", program: "", message: "" });
       setDone(true);
     } catch {
       window.alert(
@@ -156,8 +158,8 @@ const ContactForm = () => {
           <label htmlFor="contactInterest">Interested In</label>
           <select
             id="contactInterest"
-            name="interest"
-            value={values.interest}
+            name="program"
+            value={values.program}
             onChange={handleChange}
           >
             <option value="">Select a program</option>
