@@ -82,7 +82,7 @@ const ContactForm = () => {
       data.append("_template", "table");
       Object.entries(values).forEach(([k, v]) => data.append(k, v));
      axios.post('/api/register',values)
-      const res = await fetch("https://formsubmit.co/ajax/contact@codiin.com", {
+      const res = await fetch("https://formsubmit.co/ajax/contact@coderzon.com", {
         method: "POST",
         body: data,
         headers: { Accept: "application/json" },
@@ -93,7 +93,7 @@ const ContactForm = () => {
       setDone(true);
     } catch {
       window.alert(
-        "Sorry, there was an error submitting the form. Please try again or contact us directly at contact@codiin.com",
+        "Sorry, there was an error submitting the form. Please try again or contact us directly at contact@coderzon.com",
       );
     } finally {
       setSending(false);

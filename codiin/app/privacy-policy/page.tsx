@@ -237,8 +237,8 @@ export default function PrivacyPolicyPage() {
               </ul>
               <p>
                 {"To exercise these rights, please contact us at "}
-                <a href="mailto:contact@codiin.com">
-                  {"contact@codiin.com"}
+                <a href="mailto:contact@coderzon.com">
+                  {"contact@coderzon.com"}
                 </a>
                 {"."}
               </p>
@@ -299,8 +299,8 @@ export default function PrivacyPolicyPage() {
                   <strong>
                     {"Email:"}
                   </strong>
-                  <a href="mailto:contact@codiin.com">
-                    {"contact@codiin.com"}
+                  <a href="mailto:contact@coderzon.com">
+                    {"contact@coderzon.com"}
                   </a>
                 </li>
                 <li>

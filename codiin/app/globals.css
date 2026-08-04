@@ -5399,3 +5399,27 @@ pre code {
     font-size: 15px;
     line-height: 1.6;
 }
+
+/* ============================================================================
+   NAVBAR — the 769px to ~1080px band
+   The hamburger only takes over at 768px, so every link is on screen from
+   769px up. Seven of them plus the logo need roughly 694px of the ~619px the
+   container offers at 769px — adding the Internship entry is what pushed it
+   over; six fitted with about 40px to spare. Rather than move the breakpoint
+   (which would drag the rest of the mobile layout with it), the gap and label
+   size scale with the viewport across this band only.
+   ============================================================================ */
+
+@media (min-width: 769px) and (max-width: 1080px) {
+    .nav-links {
+        gap: clamp(10px, 2vw, 32px);
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .nav-links a.btn-nav {
+        padding: 9px 16px;
+    }
+}

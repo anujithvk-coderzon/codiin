@@ -336,8 +336,8 @@ export default function TermsOfServicePage() {
                   <strong>
                     {"Email:"}
                   </strong>
-                  <a href="mailto:contact@codiin.com">
-                    {"contact@codiin.com"}
+                  <a href="mailto:contact@coderzon.com">
+                    {"contact@coderzon.com"}
                   </a>
                 </li>
                 <li>

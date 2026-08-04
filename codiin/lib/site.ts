@@ -1,7 +1,7 @@
 export const SITE_URL = "https://www.codiin.com";
 
 export const CONTACT = {
-  email: "contact@codiin.com",
+  email: "contact@coderzon.com",
   phone: "+91 83018 90158",
   phoneHref: "tel:+918301890158",
   phoneIntl: "+91-8301890158",

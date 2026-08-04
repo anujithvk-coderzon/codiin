@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const NAV = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/enquiries", label: "Course Enquiry" },
+  { href: "/dashboard/internships", label: "Internship Requests" },
 ];
 
 const Sidebar = () => {
@@ -44,7 +45,11 @@ const Sidebar = () => {
         </span>
       </div>
 
-      <nav className="flex gap-1 px-3 md:flex-col">
+      {/* Wraps on mobile, where this is a horizontal bar. Three labels —
+          Dashboard, Course Enquiry, Internship Requests — are wider than a
+          320px screen, and without flex-wrap the last one is simply cut off
+          with no way to reach it. */}
+      <nav className="flex flex-wrap gap-1 px-3 pb-2 md:flex-col md:flex-nowrap md:pb-0">
         {NAV.map((item) => {
           const active =
             item.href === "/dashboard"

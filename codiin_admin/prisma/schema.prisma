@@ -30,6 +30,20 @@ model Visit {
   @@index([createdAt, ip])
 }
 
+model Internship {
+  id            String   @id
+  fullName      String
+  email         String
+  phone         String
+  program       String
+  duration      String
+  college       String
+  year_of_study String
+  createdAt     DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 enum UserType {
   REGISTER
   CONTACT

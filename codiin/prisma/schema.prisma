@@ -36,3 +36,16 @@ model Visit {
   createdAt DateTime @default(now())
   @@index([createdAt,ip])
 }
+
+model Internship {
+  id          String   @id @default(uuid())
+  fullName    String
+  email       String
+  phone       String
+  program     String
+  duration    String
+  college      String
+  year_of_study String
+  createdAt   DateTime @default(now())
+  @@index([createdAt])
+}
