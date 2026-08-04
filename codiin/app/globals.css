@@ -5520,3 +5520,78 @@ pre code {
 .contact-form-container {
     padding: clamp(20px, 5.5vw, 40px);
 }
+
+/* ============================================================================
+   WELCOME POPUP
+   Builds on .modal / .modal-content, so the overlay, centring and entry
+   transition come from the dialog styles already in this file.
+   ============================================================================ */
+
+.welcome-modal-content {
+    position: relative; /* anchors the close button */
+    max-width: min(400px, 100%);
+    text-align: center;
+}
+
+.welcome-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* 44px is the smallest reliable tap target; the icon inside is 18px. */
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background var(--transition-base), color var(--transition-base);
+}
+
+.welcome-modal-close:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+}
+
+.welcome-modal-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.welcome-modal-content p {
+    margin-bottom: clamp(20px, 5vw, 28px);
+    text-wrap: pretty;
+}
+
+/* WhatsApp brand green rather than the site palette — it reads as a channel
+   people already recognise, not as a generic button. */
+.welcome-modal-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 20px;
+    border-radius: var(--radius-md);
+    background: #25d366;
+    color: #fff;
+    font-weight: 600;
+    font-size: clamp(14px, 3.6vw, 15px);
+    text-decoration: none;
+    transition: background var(--transition-base);
+}
+
+.welcome-modal-whatsapp:hover {
+    background: #1da851;
+}
+
+.welcome-modal-whatsapp svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}

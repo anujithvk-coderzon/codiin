@@ -1,3 +1,4 @@
+import WelcomePopup from "@/components/WelcomePopup";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { SITE_URL } from "@/lib/site";
@@ -52,7 +53,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <WelcomePopup />
+      </body>
     </html>
   );
 }

@@ -37,7 +37,8 @@
       "Read(//home/anujith/.cache/ms-playwright/**)",
       "Bash(grep -nE \"width: [0-9]{3,}px|min-width: [0-9]{3,}px|max-width: [0-9]{3,}px\")",
       "Bash(sed -n '/INTERNSHIP PAGE/,$p' app/globals.css)",
-      "Bash(awk '/<tbody/,/<\\\\/tbody>/' app/dashboard/internships/page.tsx)"
+      "Bash(awk '/<tbody/,/<\\\\/tbody>/' app/dashboard/internships/page.tsx)",
+      "Bash(node -e \"const m=require\\('./.next/prerender-manifest.json'\\); console.log\\('/ still static:', Boolean\\(m.routes['/']\\)\\)\")"
     ]
   }
 }
