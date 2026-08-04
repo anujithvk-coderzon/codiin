@@ -66,10 +66,15 @@ export default function WelcomePopup() {
           </svg>
         </button>
 
-        <h3 id="welcomeTitle">Don&apos;t worry, we&apos;re with you</h3>
+        <h3 id="welcomeTitle">
+          Welcome!{" "}
+          {/* Decorative: the heading reads the same without it, and a screen
+              reader announcing "waving hand sign" adds nothing. */}
+          <span aria-hidden="true">👋</span>
+        </h3>
         <p>
-          We&apos;ll help you build a strong career in tech. Just send us a hi
-          and we&apos;ll take it from there.
+          Need help getting started? Chat with our course experts on WhatsApp
+          for quick, personalized assistance.
         </p>
 
         <a
@@ -80,7 +85,7 @@ export default function WelcomePopup() {
           onClick={close}
         >
           <WhatsAppIcon />
-          Say hi on WhatsApp
+          Chat on WhatsApp
         </a>
       </div>
     </div>
