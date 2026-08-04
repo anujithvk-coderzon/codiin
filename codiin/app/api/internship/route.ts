@@ -8,6 +8,7 @@ type InternshipData = {
   field: string;
   duration: string;
   college: string;
+  course: string;
   year: string;
 };
 
@@ -22,6 +23,7 @@ export async function POST(request: Request) {
         program: data.field,
         duration: data.duration,
         college: data.college,
+        course:data.course,
         year_of_study: data.year,
       },
     });

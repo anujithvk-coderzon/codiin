@@ -12,6 +12,7 @@ type Internship = {
   program: string;
   duration: string;
   college: string;
+  course: string;
   year_of_study: string;
   createdAt: string; // an ISO string once it has been through JSON
 };
@@ -137,9 +138,9 @@ const Page = () => {
               <colgroup>
                 <col className="w-[15%]" />
                 <col className="w-[21%]" />
-                <col className="w-[17%]" />
-                <col className="w-[11%]" />
-                <col className="w-[16%]" />
+                <col className="w-[15%]" />
+                <col className="w-[10%]" />
+                <col className="w-[19%]" />
                 <col className="w-[10%]" />
                 <col className="w-[10%]" />
               </colgroup>
@@ -158,7 +159,7 @@ const Page = () => {
                     Duration
                   </th>
                   <th scope="col" className="px-4 py-3 font-medium">
-                    College
+                    College &amp; Course
                   </th>
                   <th scope="col" className="px-4 py-3 font-medium">
                     Year
@@ -198,7 +199,10 @@ const Page = () => {
                     </td>
                     <td className="px-4 py-3.5 text-zinc-600">{r.duration}</td>
                     <td className="px-4 py-3.5 break-words text-zinc-600">
-                      {r.college}
+                      <div>{r.college}</div>
+                      <div className="mt-0.5 text-xs text-zinc-500">
+                        {r.course}
+                      </div>
                     </td>
                     <td className="px-4 py-3.5 text-zinc-600">
                       {r.year_of_study}
@@ -277,6 +281,14 @@ const Page = () => {
                     </dt>
                     <dd className="min-w-0 break-words text-zinc-600">
                       {r.college}
+                    </dd>
+                  </div>
+                  <div className="flex gap-2">
+                    <dt className="w-20 shrink-0 pt-0.5 text-[11px] uppercase tracking-wider text-zinc-400">
+                      Course
+                    </dt>
+                    <dd className="min-w-0 break-words text-zinc-600">
+                      {r.course}
                     </dd>
                   </div>
                   <div className="flex gap-2">

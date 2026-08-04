@@ -4258,10 +4258,18 @@ textarea:focus-visible {
 /* --- 17. Component states previously injected by script.js ----------------- */
 
 /* Inline validation feedback */
-.error-message {
+/* Scoped to .form-group on purpose. The 404 page uses .error-message too, and
+   its rule sits further down this file at equal specificity — so it was
+   winning, and every validation message on every form rendered in grey
+   --text-secondary at ~16px with a 20-32px bottom margin instead of small red
+   text tucked under the field. margin-bottom is reset explicitly because the
+   404 rule in the responsive layer sets that as well. */
+.form-group .error-message {
     color: var(--error);
     font-size: 13px;
+    line-height: 1.4;
     margin-top: 6px;
+    margin-bottom: 0;
 }
 
 .form-group input.error,
@@ -5422,4 +5430,93 @@ pre code {
     .nav-links a.btn-nav {
         padding: 9px 16px;
     }
+}
+
+/* ============================================================================
+   FORM POLISH
+   Applies to all three forms — contact, register and internship — since they
+   share .form-group. Everything here is fluid so the same rules hold from
+   320px upward.
+   ============================================================================ */
+
+/* Was a flat 20px at every width. On a 320px screen that is a lot of dead
+   space between eight fields; on desktop it was slightly tight. */
+.form-group {
+    margin-bottom: clamp(14px, 3.5vw, 20px);
+}
+
+/* Matches the vertical rhythm above, so the gap between two fields side by
+   side is the same as the gap between two stacked ones. */
+.form-row {
+    gap: clamp(12px, 3vw, 16px);
+}
+
+.form-group label {
+    /* A touch more room than the value it labels needs, so the pair reads as
+       one unit rather than three evenly spaced lines. */
+    margin-bottom: 6px;
+    line-height: 1.35;
+}
+
+/* The asterisk was full --error red at the same weight as the label, which
+   made every label look like it was already in an error state. */
+.form-group .required {
+    margin-left: 1px;
+    font-weight: 600;
+    opacity: 0.75;
+}
+
+/* Native selects sit ~1px taller than inputs in most browsers and collapse to
+   the platform height on iOS, so a row pairing an input with a select ends up
+   visibly uneven. A shared min-height settles it, and doubles as the 44px
+   minimum tap target. */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    min-height: 46px;
+}
+
+.form-group textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+/* Room for the arrow, and the arrow itself — without appearance:none the
+   control keeps the platform chrome and the padding lands under it. */
+.form-group select {
+    appearance: none;
+    padding-right: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%2364748b' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+}
+
+/* Until something is chosen the select shows its placeholder option, which is
+   an instruction rather than a value — grey it so it reads like the
+   placeholder text in the inputs beside it. */
+.form-group select:has(option[value=""]:checked) {
+    color: var(--text-light);
+}
+
+/* The focus ring was a 3px indigo glow; on an errored field that fought with
+   the red border and the field looked neither focused nor invalid. */
+.form-group input.error:focus,
+.form-group select.error:focus,
+.form-group textarea.error:focus {
+    border-color: var(--error);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-light);
+}
+
+/* The card the form sits in. 40px of padding on a 320px screen leaves 240px
+   for the fields themselves. */
+.register-form-container,
+.contact-form-container {
+    padding: clamp(20px, 5.5vw, 40px);
 }

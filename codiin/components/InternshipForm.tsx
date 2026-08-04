@@ -5,6 +5,8 @@ import axios, { isAxiosError } from "axios";
 import { useState } from "react";
 import SuccessModal from "./SuccessModal";
 
+// Adding a key here is all it takes to make a field required — the submit
+// check iterates Object.keys(BLANK) rather than a separate list.
 const BLANK = {
   name: "",
   email: "",
@@ -12,6 +14,7 @@ const BLANK = {
   field: "",
   duration: "",
   college: "",
+  course: "",
   year: "",
 };
 
@@ -48,7 +51,6 @@ export default function InternshipForm() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
-
 
   const check = (name: string, value: string) => {
     const v = value.trim();
@@ -251,6 +253,31 @@ export default function InternshipForm() {
               <div className="error-message">{errors.college}</div>
             )}
           </div>
+          {/* Paired with College: the course is what they study *there*, so the
+              two read as one answer. Free text rather than a dropdown — the
+              spread of degree names across colleges is too wide to enumerate,
+              and a wrong list forces people into "Other". */}
+          <div className="form-group">
+            <label htmlFor="internCourse">
+              Course <span className="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="internCourse"
+              name="course"
+              placeholder="e.g. B.Tech Computer Science"
+              value={data.course}
+              className={errors.course ? "error" : undefined}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.course && (
+              <div className="error-message">{errors.course}</div>
+            )}
+          </div>
+        </div>
+
+        <div className="form-row">
           <div className="form-group">
             <label htmlFor="internYear">
               Year of Study <span className="required">*</span>

@@ -27,6 +27,7 @@ type Internship = {
   program: string;
   duration: string;
   college: string;
+  course: string;
   year_of_study: string;
   createdAt: string;
 };
@@ -436,7 +437,7 @@ export default function DashboardPage() {
                           {/* Year and duration together: which year they are in
                             only means something next to how long they want. */}
                           <div className="truncate text-xs text-zinc-500">
-                            {r.year_of_study} &middot; {r.duration}
+                            {r.course} &middot; {r.year_of_study}
                           </div>
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 text-right font-mono text-xs tabular-nums text-zinc-500">
@@ -471,7 +472,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
                       <p className="mt-1.5 break-words text-xs text-zinc-500">
-                        {r.college} &middot; {r.year_of_study}
+                        {r.college} &middot; {r.course} &middot; {r.year_of_study}
                       </p>
                     </li>
                   ))}

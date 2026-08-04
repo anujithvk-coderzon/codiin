@@ -38,6 +38,7 @@ model Internship {
   program       String
   duration      String
   college       String
+  course        String
   year_of_study String
   createdAt     DateTime @default(now())
 
