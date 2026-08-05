@@ -136,8 +136,8 @@ export default function InternshipPage() {
             <div className="program-hero-content">
               <span className="program-hero-badge">Internship Program</span>
               <h1>
-                Internships that leave you with{" "}
-                <span className="gradient-text">something to show</span>
+                Internship that helps you gain{" "}
+                <span className="gradient-text">industry experience</span>
               </h1>
               <p className="program-hero-desc">
                 A mentor-led internship in Kochi for students in any year of

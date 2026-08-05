@@ -1,8 +1,11 @@
 
+import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/dist/server/web/spec-extension/response";
 
 export async function GET() {
+  const denied = await requireAdmin();             // ← add
+    if (denied) return denied;
 const today=new Date();
 today.setHours(0,0,0,0)
   try {

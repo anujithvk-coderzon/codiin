@@ -1,7 +1,10 @@
+import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req:NextRequest) {
+    const denied = await requireAdmin();             // ← add
+    if (denied) return denied;
     try {
         const searchparameter=req.nextUrl.searchParams;
         const page=Number(searchparameter.get('page'))

@@ -49,3 +49,20 @@ enum UserType {
   REGISTER
   CONTACT
 }
+
+
+// model Event {
+//   id String @id @default(uuid())
+//   slug String @unique
+//   name String
+//   description String
+//   startDate DateTime
+//   endDate DateTime
+//   syllabus String[]
+//   feesStructure Json?
+//   importantLinks Json? 
+//   imageUrl String?
+//   venue String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }

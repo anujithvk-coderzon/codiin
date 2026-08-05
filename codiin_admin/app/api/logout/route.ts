@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { requireAdmin } from "@/lib/auth";
 
 export async function POST() {
+  const denied = await requireAdmin();             // ← add
+    if (denied) return denied;
   const cookie = await cookies();
 
   // delete() alone is usually enough, but the browser only clears a cookie

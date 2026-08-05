@@ -14,7 +14,7 @@ export default function WelcomePopup() {
       if (sessionStorage.getItem(STORAGE_KEY)) return;
     } catch {
     }
-    const timer = window.setTimeout(() => setOpen(true), 1200);
+    const timer = window.setTimeout(() => setOpen(true), 5000);
     return () => window.clearTimeout(timer);
   }, []);
 
