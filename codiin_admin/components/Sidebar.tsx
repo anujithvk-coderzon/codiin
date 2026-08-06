@@ -11,6 +11,7 @@ const NAV = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/enquiries", label: "Course Enquiry" },
   { href: "/dashboard/internships", label: "Internship Requests" },
+  { href: "/dashboard/events", label: "Events" },
 ];
 
 const Sidebar = () => {

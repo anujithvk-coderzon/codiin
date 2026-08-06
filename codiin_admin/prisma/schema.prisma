@@ -7,6 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum modeType {
+  ONLINE
+  OFFLINE
+}
+
+
 model User {
   id         String   @id
   type       UserType
@@ -51,18 +57,25 @@ enum UserType {
 }
 
 
-// model Event {
-//   id String @id @default(uuid())
-//   slug String @unique
-//   name String
-//   description String
-//   startDate DateTime
-//   endDate DateTime
-//   syllabus String[]
-//   feesStructure Json?
-//   importantLinks Json? 
-//   imageUrl String?
-//   venue String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-// }
+model Event {
+  id String @id @default(uuid())
+  slug String @unique
+  name String
+  description String
+  applicationEndDate String
+  startDate DateTime
+  endDate DateTime
+  isPaidEvent Boolean @default(false)
+  syllabus Json? @default("[]")
+  feesStructure Json? @default("[]")
+  importantLinks Json? @default("[]")
+  imageUrl String?
+  mode modeType @default(ONLINE)
+  address String?
+  whoShouldAttend String[]
+  benefits String[]
+  trainerDetails Json? @default("[]")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([startDate])
+}

@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -11,13 +6,10 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-enum UserType {
-  REGISTER
-  CONTACT
-}
+
 model User {
   id         String   @id @default(uuid())
-  type       UserType    
+  type       UserType
   name       String
   email      String
   phone      String
@@ -34,19 +26,55 @@ model Visit {
   id        String   @id @default(uuid())
   ip        String
   createdAt DateTime @default(now())
-  @@index([createdAt,ip])
+
+  @@index([createdAt, ip])
 }
 
 model Internship {
-  id          String   @id @default(uuid())
-  fullName    String
-  email       String
-  phone       String
-  program     String
-  duration    String
-  college      String
-  course      String
+  id            String   @id @default(uuid())
+  fullName      String
+  email         String
+  phone         String
+  program       String
+  duration      String
+  college       String
+  course        String
   year_of_study String
-  createdAt   DateTime @default(now())
+  createdAt     DateTime @default(now())
+
   @@index([createdAt])
+}
+
+model Event {
+  id                 String   @id
+  slug               String   @unique
+  name               String
+  description        String
+  startDate          DateTime
+  endDate            DateTime
+  syllabus           Json?    @default("[]")
+  feesStructure      Json?    @default("[]")
+  importantLinks     Json?    @default("[]")
+  imageUrl           String?
+  mode               modeType @default(ONLINE)
+  address            String?
+  whoShouldAttend    String[]
+  trainerDetails     Json?    @default("[]")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime
+  benefits           String[]
+  isPaidEvent        Boolean  @default(false)
+  applicationEndDate String
+
+  @@index([startDate])
+}
+
+enum UserType {
+  REGISTER
+  CONTACT
+}
+
+enum modeType {
+  ONLINE
+  OFFLINE
 }
