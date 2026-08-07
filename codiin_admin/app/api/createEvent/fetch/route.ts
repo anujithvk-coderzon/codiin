@@ -7,9 +7,9 @@ export async function GET() {
     const denied = await requireAdmin();
      if (denied) return denied;
 try {
-    const events=await prisma.event.findMany({orderBy:{createdAt:'desc'}})
+    const events=await prisma.event.findMany({ orderBy:{createdAt:'desc'},include:{_count:{select:{ EventRegistration:true}}}})
     return NextResponse.json({events},{status:200})
 } catch (error) {
-    return NextResponse.json({message:"Unexpected error occured",error})
+    return NextResponse.json({message:"Unexpected error occured",error},{status:500})
 }    
 }

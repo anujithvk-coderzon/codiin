@@ -7,12 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum modeType {
-  ONLINE
-  OFFLINE
-}
-
-
 model User {
   id         String   @id
   type       UserType
@@ -51,31 +45,55 @@ model Internship {
   @@index([createdAt])
 }
 
+model Event {
+  id                 String              @id @default(uuid())
+  slug               String              @unique
+  name               String
+  description        String
+  startDate          DateTime
+  endDate            DateTime
+  syllabus           Json?               @default("[]")
+  feesStructure      Json?               @default("[]")
+  importantLinks     Json?               @default("[]")
+  imageUrl           String?
+  mode               modeType            @default(ONLINE)
+  address            String?
+  whoShouldAttend    String[]
+  trainerDetails     Json?               @default("[]")
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  benefits           String[]
+  isPaidEvent        Boolean             @default(false)
+  applicationEndDate String
+  EventRegistration  EventRegistration[]
+
+  @@index([startDate])
+}
+
+model EventRegistration {
+  id         String   @id
+  slug       String
+  name       String
+  mobile     String
+  email      String
+  college    String
+  course     String
+  yearOfPass DateTime
+  howYouKnow String
+  createdAt  DateTime @default(now())
+  Event      Event    @relation(fields: [slug], references: [slug])
+
+  @@index([slug, email])
+  @@index([createdAt])
+  @@index([slug])
+}
+
+enum modeType {
+  ONLINE
+  OFFLINE
+}
+
 enum UserType {
   REGISTER
   CONTACT
-}
-
-
-model Event {
-  id String @id @default(uuid())
-  slug String @unique
-  name String
-  description String
-  applicationEndDate String
-  startDate DateTime
-  endDate DateTime
-  isPaidEvent Boolean @default(false)
-  syllabus Json? @default("[]")
-  feesStructure Json? @default("[]")
-  importantLinks Json? @default("[]")
-  imageUrl String?
-  mode modeType @default(ONLINE)
-  address String?
-  whoShouldAttend String[]
-  benefits String[]
-  trainerDetails Json? @default("[]")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  @@index([startDate])
 }

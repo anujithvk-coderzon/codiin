@@ -46,25 +46,26 @@ model Internship {
 }
 
 model Event {
-  id                 String   @id
-  slug               String   @unique
+  id                 String              @id
+  slug               String              @unique
   name               String
   description        String
   startDate          DateTime
   endDate            DateTime
-  syllabus           Json?    @default("[]")
-  feesStructure      Json?    @default("[]")
-  importantLinks     Json?    @default("[]")
+  syllabus           Json?               @default("[]")
+  feesStructure      Json?               @default("[]")
+  importantLinks     Json?               @default("[]")
   imageUrl           String?
-  mode               modeType @default(ONLINE)
+  mode               modeType            @default(ONLINE)
   address            String?
   whoShouldAttend    String[]
-  trainerDetails     Json?    @default("[]")
-  createdAt          DateTime @default(now())
+  trainerDetails     Json?               @default("[]")
+  createdAt          DateTime            @default(now())
   updatedAt          DateTime
   benefits           String[]
-  isPaidEvent        Boolean  @default(false)
+  isPaidEvent        Boolean             @default(false)
   applicationEndDate String
+  eventRegistrations EventRegistration[]
 
   @@index([startDate])
 }
@@ -77,4 +78,21 @@ enum UserType {
 enum modeType {
   ONLINE
   OFFLINE
+}
+
+model EventRegistration {
+  id         String   @id @default(uuid())
+  slug       String
+  name       String
+  mobile     String
+  email      String
+  college    String
+  course     String
+  yearOfPass DateTime
+  howYouKnow String
+  createdAt  DateTime @default(now())
+  event      Event    @relation(fields:[slug], references: [slug])
+  @@index([slug, email])
+  @@index([slug])
+  @@index([createdAt])
 }

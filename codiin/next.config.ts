@@ -13,6 +13,14 @@ const COURSE_SLUGS = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    // Event posters live in Vercel Blob. next/image rejects any remote host
+    // that is not listed here, at runtime rather than at build.
+    remotePatterns: [
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+    ],
+  },
+
   async redirects() {
     return [
       // Legacy .html URLs keep their inbound links and search rankings.

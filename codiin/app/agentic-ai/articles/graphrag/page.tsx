@@ -17,6 +17,7 @@ export const metadata: Metadata = {
 const NAV_LINKS = [
   { href: "/#programs", label: "Programs" },
   { href: "/internship", label: "Internship" },
+  { href: "/events", label: "Events" },
   { href: "/agentic-ai", label: "Learn Agentic AI", cta: true },
 ];
 

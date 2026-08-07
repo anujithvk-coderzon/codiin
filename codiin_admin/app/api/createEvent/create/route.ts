@@ -1,9 +1,7 @@
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { put } from "@vercel/blob";
-import { url } from "inspector";
 import { NextResponse } from "next/server";
-import { json } from "stream/consumers";
 
 type syllabus={label:string,description:string}
 type feesStructure={label:string,amount:number}
@@ -37,10 +35,11 @@ export async function POST(request: Request) {
   let imageUrl: string | null=null
   
   if(file instanceof File && file.size>0){
-    const imageUpload=await put('event-posters',file!,{
+    const imageUpload=await put(`events/${file.name}`,file,{
     access:'public',
     storeId:process.env.BLOB_STORE_ID,
-    token:process.env.BLOB_READ_WRITE_TOKEN
+    token:process.env.BLOB_READ_WRITE_TOKEN,
+    addRandomSuffix:true
   })
   imageUrl=imageUpload.url;
   }
@@ -71,9 +70,9 @@ export async function POST(request: Request) {
         trainerDetails: body.trainerDetails ?? []
     }
     })
-    return NextResponse.json({message:"Event created succesfully"})
+    return NextResponse.json({message:"Event created succesfully"},{status:200})
   } catch (error) {
-    return NextResponse.json({message:"Unexpected error occured",error})
+    return NextResponse.json({message:"Unexpected error occured",error},{status:500})
   }
 
 }

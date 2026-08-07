@@ -27,6 +27,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const events: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/events`,
+      // Listed events change as they are added and pass, so this is the one
+      // page on the site worth crawling often.
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+  ];
+
   const programs: MetadataRoute.Sitemap = PROGRAMS.map((p) => ({
     url: `${SITE_URL}/${p.slug}`,
     lastModified: now,
@@ -54,5 +65,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...home, ...internship, ...programs, ...articles, ...legal];
+  return [...home, ...internship, ...events, ...programs, ...articles, ...legal];
 }

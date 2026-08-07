@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 const NAV_LINKS = [
   { href: "/#programs", label: "Programs" },
   { href: "/internship", label: "Internship" },
+  { href: "/events", label: "Events" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },
   { href: "/hybrid-mobile-app", label: "Learn Hybrid Mobile", cta: true },
