@@ -11,11 +11,19 @@ export async function POST(req: Request) {
   req.headers.get("x-real-ip") ||
   "unknown";
     const data= await req.json()
-    console.log(data);
-    
+
     const exist=await prisma.visit.findFirst({where:{ip,createdAt:{gte:today}}})
     if(!exist){
-        await prisma.visit.create({data:{ip,path:data.path,source:data.source,campaign:data.campaign ?? null}})
+        await prisma.visit.create({data:{
+          ip,
+          path:data.path,
+          source:data.source,
+          campaign:data.campaign ?? null,
+          // Read from the request rather than sent by the page: a crawler
+          // identifies itself here, and this is the only field it cannot
+          // choose not to send.
+          userAgent:req.headers.get("user-agent"),
+        }})
     }
     return new Response(null, { status: 204 });
   } catch (error) {

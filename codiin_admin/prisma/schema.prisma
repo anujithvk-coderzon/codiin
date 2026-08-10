@@ -29,6 +29,7 @@ model Visit {
   path      String?
   campaign  String?
   source    String?
+  userAgent String?
 
   @@index([createdAt])
 }

@@ -4,6 +4,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 const IST = 5.5 * 60 * 60 * 1000;
 
+/* Crawlers say so in their user agent — Googlebot, Bingbot, the AI crawlers,
+   and the link-preview fetchers behind WhatsApp and Facebook shares all match
+   one of these. Not exhaustive and never will be, but it separates the bulk
+   of automated traffic from people, which is the difference that matters when
+   your sir asks how many visitors there were. */
+const BOT =
+  /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|whatsapp|preview|headless|lighthouse|pingdom|monitor|scrape|curl|wget|python-requests|axios|node-fetch/i;
+
+const isBot = (userAgent: string | null) => Boolean(userAgent && BOT.test(userAgent));
+
 /** Counts the values of one field, biggest first. */
 const tally = (values: (string | null)[]) => {
   const counts: Record<string, number> = {};
@@ -46,18 +56,23 @@ export async function GET(req: NextRequest) {
   try {
     const visits = await prisma.visit.findMany({
       where: { createdAt: { gte: start, lt: end } },
-      select: { source: true, path: true, campaign: true },
+      select: { source: true, path: true, campaign: true, userAgent: true },
     });
+
+    // Split before counting, so every breakdown below describes people.
+    const people = visits.filter((v) => !isBot(v.userAgent));
+    const bots = visits.length - people.length;
 
     return NextResponse.json({
       date,
       days,
-      total: visits.length,
-      sources: tally(visits.map((v) => v.source)),
-      paths: tally(visits.map((v) => v.path)),
+      total: people.length,
+      bots,
+      sources: tally(people.map((v) => v.source)),
+      paths: tally(people.map((v) => v.path)),
       // Only ads carry a campaign, so most visits have none — listing
       // "Unknown: 40" would be noise rather than information.
-      campaigns: tally(visits.map((v) => v.campaign).filter(Boolean)),
+      campaigns: tally(people.map((v) => v.campaign).filter(Boolean)),
     });
   } catch (error) {
     console.error("GET /api/visitorStats failed:", error);

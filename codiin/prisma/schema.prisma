@@ -28,6 +28,7 @@ model Visit {
   path      String?
   source    String?
   campaign  String?
+  userAgent String?
   createdAt DateTime @default(now())
 
   @@index([createdAt])
