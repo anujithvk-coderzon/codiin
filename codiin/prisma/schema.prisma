@@ -25,9 +25,12 @@ model User {
 model Visit {
   id        String   @id @default(uuid())
   ip        String
+  path      String?
+  source    String?
+  campaign  String?
   createdAt DateTime @default(now())
 
-  @@index([createdAt, ip])
+  @@index([createdAt])
 }
 
 model Internship {

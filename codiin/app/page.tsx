@@ -9,7 +9,6 @@ import Hero from "@/components/home/Hero";
 import Programs from "@/components/home/Programs";
 import Register from "@/components/home/Register";
 import WhyUs from "@/components/home/WhyUs";
-import VisitLogger from "@/components/VisitLogger";
 import { CONTACT, SITE_URL, SOCIAL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -99,7 +98,6 @@ export default function HomePage() {
     <>
       <JsonLd data={ORGANIZATION} />
       <JsonLd data={LOCAL_BUSINESS} />
-      <VisitLogger />
 
       <Navbar spy />
 

@@ -66,6 +66,14 @@ const Chevron = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+/* Labelled the way the two forms are described elsewhere on the site rather
+   than by the enum values, which mean nothing to anyone reading this page. */
+const FILTERS: { value: UserType | "ALL"; label: string }[] = [
+  { value: "ALL", label: "All" },
+  { value: "REGISTER", label: "Registrations" },
+  { value: "CONTACT", label: "Contact" },
+];
+
 const TypeBadge = ({ type }: { type: UserType }) => (
   <span
     className={`inline-block whitespace-nowrap rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset ${
@@ -82,8 +90,7 @@ const Page = () => {
   const [error, setError] = useState("");
   const [page,setPage]=useState(1)
   const [total,setTotal]=useState(0)
-  // Which rows have their detail open. A Set rather than a single id so two
-  // enquiries can be compared side by side instead of fighting each other.
+  const [filter, setFilter] = useState<UserType | "ALL">("ALL");
   const [open, setOpen] = useState<Set<string>>(new Set());
 
   const toggle = (id: string) =>
@@ -95,14 +102,16 @@ const Page = () => {
 
   useEffect(() => {
     const load = async () => {
+      const typeParam = filter === "ALL" ? "" : `&type=${filter}`;
       try {
         if(page===1){
-        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}`);
+        setLoading(true);
+        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}${typeParam}`);
         setRows(res.data.data);
         setTotal(res.data.total)
         return
         }
-        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}&limit=10`);
+        const res = await axios.get<Enquiry>(`/api/enquiry?page=${page}&limit=10${typeParam}`);
         setRows((prev)=>[...prev,...res.data.data])
       } catch (err) {
         const message = isAxiosError(err)
@@ -115,7 +124,7 @@ const Page = () => {
       }
     };
     load();
-  }, [page]);
+  }, [page, filter]);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
@@ -128,6 +137,39 @@ const Page = () => {
             Everyone who submitted the registration or contact form on codiin.com.
           </p>
         </div>
+        {!error && (
+          <div
+            role="group"
+            aria-label="Filter by type"
+            className="flex w-full rounded-lg border border-zinc-200 bg-zinc-100 p-0.5 sm:w-auto"
+          >
+            {FILTERS.map((option) => {
+              const active = filter === option.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => {
+                    if (active) return;
+                    setFilter(option.value);
+                    // Back to the first page: page 3 of everything is not
+                    // page 3 of one type, and the rows accumulate.
+                    setPage(1);
+                  }}
+                  className={`flex-1 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 sm:flex-none ${
+                    active
+                      ? "bg-white text-zinc-900 shadow-sm"
+                      : "text-zinc-500 hover:text-zinc-800"
+                  }`}
+                >
+                  {option.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {!loading && !error && rows.length > 0 && (
           <div className="flex items-center gap-2 rounded-md bg-zinc-100 px-3 py-1.5">
   <span className="text-sm font-medium text-zinc-600">
@@ -174,10 +216,15 @@ const Page = () => {
         </div>
       ) : rows.length === 0 ? (
         <div className="rounded-xl border border-zinc-200 bg-white px-6 py-16 text-center">
-          <p className="text-sm font-medium text-zinc-900">No enquiries yet</p>
+          <p className="text-sm font-medium text-zinc-900">
+            {filter === "ALL"
+              ? "No enquiries yet"
+              : `No ${filter === "REGISTER" ? "registrations" : "contact messages"} yet`}
+          </p>
           <p className="mx-auto mt-1 max-w-xs text-sm text-zinc-500">
-            When someone submits the form on codiin.com, they&apos;ll appear here
-            so you can follow up.
+            {filter === "ALL"
+              ? "When someone submits the form on codiin.com, they'll appear here so you can follow up."
+              : "Nothing of this type has come in. Switch to All to see everything."}
           </p>
         </div>
       ) : (

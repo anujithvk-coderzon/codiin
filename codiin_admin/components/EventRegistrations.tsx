@@ -27,10 +27,6 @@ const fmtDay = (iso: string) =>
       })
     : "—";
 
-/* Past this, a single list stops being something anyone reads and becomes
-   something they scroll past. */
-const PAGE_SIZE = 25;
-
 type SortKey = "name" | "college" | "yearOfPass" | "createdAt";
 type SortDir = "asc" | "desc";
 
@@ -59,10 +55,11 @@ const Detail = ({ label, value }: { label: string; value: string }) => (
 );
 
 /**
- * Who signed up for an event, sortable and paged.
+ * Who signed up for an event, sortable.
  *
- * Its own component rather than more of the event page — this is the part of
- * that page with state of its own, and the page was long enough already.
+ * Not paged: the rows all arrive with the event anyway, so paging would only
+ * hide them from the browser's own find — and scrolling a list of names is
+ * less work than clicking through it.
  */
 const EventRegistrations = ({
   registrations,
@@ -74,7 +71,6 @@ const EventRegistrations = ({
 }) => {
   const [sortKey, setSortKey] = useState<SortKey>("createdAt");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
-  const [page, setPage] = useState(1);
 
   const sorted = [...registrations].sort((a, b) => {
     /* Dates compare as timestamps and everything else as text. localeCompare
@@ -87,13 +83,6 @@ const EventRegistrations = ({
       );
     return a[sortKey].localeCompare(b[sortKey], "en", { sensitivity: "base" }) * direction;
   });
-
-  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
-  /* Clamped during render rather than corrected by an effect, so a page that
-     no longer exists can never be rendered even for a frame. */
-  const current = Math.min(page, totalPages);
-  const start = (current - 1) * PAGE_SIZE;
-  const shown = sorted.slice(start, start + PAGE_SIZE);
 
   const toggleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -108,6 +97,26 @@ const EventRegistrations = ({
 
   const sortIndicator = (key: SortKey) =>
     key === sortKey ? (sortDir === "asc" ? "▲" : "▼") : "";
+
+ const exportCSV=()=>{
+  const escape=(value:string)=>`"${String(value ?? "").replace(/"/g, '""')}"`
+   const headers = [
+      "Name", "Email", "Mobile", "College",
+      "Course", "Year of passing", "Heard via", "Registered on",
+    ];
+   const rows = sorted.map((person) =>
+      [
+        person.name,
+        person.email,
+        person.mobile,
+        person.college,
+        person.course,
+        fmtYear(person.yearOfPass),
+        person.howYouKnow,
+        fmtDay(person.createdAt),
+      ].map(escape).join(","),
+    ); 
+ }
 
   return (
     <section
@@ -133,7 +142,7 @@ const EventRegistrations = ({
               cannot be read at 320px, and a table that scrolls sideways hides
               exactly the columns you opened the page for. */}
           <ul className="divide-y divide-zinc-100 md:hidden">
-            {shown.map((person) => (
+            {sorted.map((person) => (
               <li key={person.id} className="px-4 py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                   <p className="min-w-0 break-words text-sm font-semibold text-zinc-900">
@@ -184,7 +193,7 @@ const EventRegistrations = ({
 
           <div className="hidden md:block">
             <table className="w-full text-left text-sm">
-              {/* Sticky so the columns stay named through twenty-five rows. */}
+              {/* Sticky so the columns stay named however far the list runs. */}
               <thead className="sticky top-0 z-10 border-b border-zinc-200 bg-zinc-50 text-xs uppercase tracking-wider text-zinc-500">
                 <tr>
                   {COLUMNS.map((column) => (
@@ -219,7 +228,7 @@ const EventRegistrations = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">
-                {shown.map((person) => (
+                {sorted.map((person) => (
                   <tr
                     key={person.id}
                     className="align-top transition hover:bg-zinc-50"
@@ -265,35 +274,6 @@ const EventRegistrations = ({
             </table>
           </div>
 
-          {/* Only worth the space once there is more than one page of them. */}
-          {totalPages > 1 && (
-            <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 bg-zinc-50/70 px-4 py-3 text-sm sm:px-5">
-              <p className="text-zinc-500 tabular-nums">
-                Showing {start + 1}–{start + shown.length} of {sorted.length}
-              </p>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => setPage(current - 1)}
-                  disabled={current === 1}
-                  className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 font-medium text-zinc-700 transition hover:border-zinc-400 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Previous
-                </button>
-                <span className="tabular-nums text-zinc-500">
-                  {current} / {totalPages}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setPage(current + 1)}
-                  disabled={current === totalPages}
-                  className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 font-medium text-zinc-700 transition hover:border-zinc-400 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  Next
-                </button>
-              </div>
-            </footer>
-          )}
         </>
       )}
     </section>

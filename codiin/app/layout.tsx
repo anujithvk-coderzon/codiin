@@ -1,3 +1,4 @@
+import VisitLogger from "@/components/VisitLogger";
 import WelcomePopup from "@/components/WelcomePopup";
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
@@ -55,6 +56,11 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
       <body>
         {children}
+        {/* In the root layout rather than on the home page, so a visitor who
+            lands straight on /agentic-ai or /events from an ad is counted at
+            all. The root layout survives client-side navigation, so this
+            still fires once per visit and not once per internal link. */}
+        <VisitLogger />
         <WelcomePopup />
       </body>
     </html>
