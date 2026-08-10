@@ -26,8 +26,11 @@ model Visit {
   id        String   @id
   ip        String
   createdAt DateTime @default(now())
+  path      String?
+  campaign  String?
+  source    String?
 
-  @@index([createdAt, ip])
+  @@index([createdAt])
 }
 
 model Internship {

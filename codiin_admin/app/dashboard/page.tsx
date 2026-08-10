@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import VisitsByDay from "@/components/VisitsByDay";
 
 type Enquiry = {
   id: string;
@@ -69,6 +70,7 @@ export default function DashboardPage() {
   const [error, setError] = useState("");
   const [todayEnquiries, setTodayEnquiries] = useState(0);
   const [todayvisits, setTodayVisits] = useState(0);
+  const [showVisitors, setShowVisitors] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -147,13 +149,24 @@ export default function DashboardPage() {
           onto two lines. */}
       <dl className="mb-8 grid grid-cols-1 divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200 bg-white sm:grid-cols-3 sm:divide-x sm:divide-y-0">
         {[
-          { label: "Visitors today", value: todayvisits },
-          { label: "Enquiries today", value: todayEnquiries },
-          { label: "Total enquiries", value: total },
+          // Only this one has anywhere to go — the other two are already
+          // whole numbers with nothing behind them.
+          { label: "Visitors today", value: todayvisits, detail: true },
+          { label: "Enquiries today", value: todayEnquiries, detail: false },
+          { label: "Total enquiries", value: total, detail: false },
         ].map((stat) => (
           <div key={stat.label} className="px-4 py-3.5">
-            <dt className="text-xs font-medium uppercase tracking-wider text-zinc-500">
+            <dt className="flex items-center justify-between gap-2 text-xs font-medium uppercase tracking-wider text-zinc-500">
               {stat.label}
+              {stat.detail && (
+                <button
+                  type="button"
+                  onClick={() => setShowVisitors(true)}
+                  className="rounded text-xs font-medium normal-case tracking-normal text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                >
+                  Details
+                </button>
+              )}
             </dt>
             <dd className="mt-1 font-mono text-lg tabular-nums text-zinc-900">
               {loading ? (
@@ -168,6 +181,25 @@ export default function DashboardPage() {
           </div>
         ))}
       </dl>
+
+      {/* Behind a button rather than always open: this is analytics, and the
+          enquiries below are the actual work — a panel sitting open pushes
+          them down the page every time you load it. */}
+      {showVisitors && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Visitor details"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4 sm:items-center sm:p-6"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowVisitors(false);
+          }}
+        >
+          <div className="w-full max-w-3xl">
+            <VisitsByDay onClose={() => setShowVisitors(false)} />
+          </div>
+        </div>
+      )}
 
       {/* Side by side from xl only. Four columns in half of a 1024px
           viewport is too narrow, so below that they stack. */}
