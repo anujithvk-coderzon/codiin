@@ -48,11 +48,11 @@ const Breakdown = ({
 
   return (
     <section className="min-w-0 rounded-lg border border-zinc-200 bg-zinc-50/60 p-3 sm:p-3.5">
-      <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+      <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-zinc-500">
         {title}
       </h3>
 
-      <ul className="space-y-2.5">
+      <ul className="space-y-2">
         {shown.map((row, i) => {
           const percent = Math.round((row.count / total) * 100);
           return (
@@ -76,7 +76,7 @@ const Breakdown = ({
               {/* Widths are against the day's total, not the biggest row, so a
                   column of bars adds up to the whole day. The leader is solid
                   and the rest lighter, so the ranking reads without numbers. */}
-              <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-zinc-200/70">
+              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-zinc-200/70">
                 <div
                   className={`h-full rounded-full transition-all ${
                     i === 0 ? "bg-indigo-500" : "bg-indigo-300"
@@ -94,7 +94,7 @@ const Breakdown = ({
           type="button"
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="mt-3 rounded text-xs font-medium text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+          className="mt-2.5 rounded text-xs font-medium text-indigo-600 transition hover:text-indigo-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
         >
           {expanded ? "Show less" : `Show ${hidden} more`}
         </button>
@@ -158,7 +158,7 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
        viewport and — because the backdrop centres it — the top goes off screen
        with no way to reach it. min-h-0 is what allows the middle to shrink;
        a flex child defaults to its content size and would refuse to. */
-    <section className="flex max-h-[92vh] w-full flex-col overflow-hidden rounded-t-2xl border border-zinc-200 bg-white shadow-2xl sm:max-h-[85vh] sm:rounded-xl">
+    <section className="flex max-h-[88vh] w-full flex-col overflow-hidden rounded-t-2xl border border-zinc-200 bg-white shadow-2xl sm:max-h-[85vh] sm:rounded-xl">
       <header className="flex shrink-0 flex-wrap items-center gap-2 border-b border-zinc-200 px-4 py-3 sm:px-5">
         <h2 className="mr-auto text-sm font-semibold text-zinc-900">Visitors</h2>
 
@@ -213,8 +213,8 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
             {/* The headline figure — everything below it is a way of splitting
                 this one number up. Sticky so it stays legible while the
                 breakdowns scroll under it. */}
-            <div className="sticky top-0 z-10 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 bg-white/95 px-4 py-3.5 backdrop-blur sm:px-5">
-              <span className="font-mono text-3xl leading-none tabular-nums text-zinc-900">
+            <div className="sticky top-0 z-10 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 bg-white/95 px-4 py-3 backdrop-blur sm:px-5">
+              <span className="font-mono text-2xl leading-none tabular-nums text-zinc-900">
                 {stats.total}
               </span>
               <span className="min-w-0 text-sm text-zinc-500">
