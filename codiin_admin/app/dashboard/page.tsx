@@ -190,7 +190,10 @@ export default function DashboardPage() {
           role="dialog"
           aria-modal="true"
           aria-label="Visitor details"
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4 sm:items-center sm:p-6"
+          /* A sheet from the bottom on a phone, a centred dialog from sm.
+             The panel caps its own height and scrolls internally, so this
+             layer never scrolls and never clips the top. */
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center sm:p-6"
           onClick={(e) => {
             if (e.target === e.currentTarget) setShowVisitors(false);
           }}
