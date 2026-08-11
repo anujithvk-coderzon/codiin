@@ -14,6 +14,7 @@ type DayStats = {
   sources: Slice[];
   paths: Slice[];
   campaigns: Slice[];
+  browsers: Slice[];
 };
 
 // "10 Aug 2026, Mon"
@@ -138,6 +139,9 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
         { title: "Came from", rows: stats.sources },
         { title: "Landed on", rows: stats.paths },
         { title: "Campaign", rows: stats.campaigns },
+        // Tells you at a glance whether a day was people or machines, without
+        // having to infer it from the shape of the page list.
+        { title: "Browser", rows: stats.browsers },
       ].filter((panel) => panel.rows.length > 0)
     : [];
 

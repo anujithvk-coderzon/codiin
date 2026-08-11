@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect } from "react";
+import { isNotFound } from "@/lib/visitLog";
 
 const NAMES: Record<string, string> = {
   "l.instagram.com": "Instagram",
@@ -20,8 +21,35 @@ function linkedFrom() {
   return NAMES[host] ?? host;
 }
 
+
+function visitorId() {
+  try {
+    let id = localStorage.getItem("codiin:vid");
+    if (!id) {
+      id = crypto.randomUUID();
+      localStorage.setItem("codiin:vid", id);
+    }
+    return id;
+  } catch {
+    return null;
+  }
+}
+
+function alreadyLogged() {
+  try {
+    if (sessionStorage.getItem("codiin:logged")) return true;
+    sessionStorage.setItem("codiin:logged", "1");
+    return false;
+  } catch {
+
+    return false;
+  }
+}
+
 export default function VisitLogger() {
   useEffect(() => {
+    if (isNotFound() || alreadyLogged()) return;
+
     const params = new URLSearchParams(window.location.search);
     const source = params.get("utm_source") || linkedFrom() || "Direct";
 
@@ -30,6 +58,7 @@ export default function VisitLogger() {
         path: window.location.pathname,
         source,
         campaign: params.get("utm_campaign"),
+        visitorId: visitorId(),
       })
       .catch(() => {});
   }, []);

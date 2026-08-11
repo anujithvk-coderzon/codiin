@@ -14,6 +14,18 @@ const BOT =
 
 const isBot = (userAgent: string | null) => Boolean(userAgent && BOT.test(userAgent));
 
+/* The browser name out of a user-agent string. Order matters: Edge's UA
+   contains "Chrome", and Chrome's contains "Safari". */
+const browserOf = (ua: string | null) => {
+  if (!ua) return "Unknown";
+  if (/edg\//i.test(ua)) return "Edge";
+  if (/opr\/|opera/i.test(ua)) return "Opera";
+  if (/chrome|crios/i.test(ua)) return "Chrome";
+  if (/firefox|fxios/i.test(ua)) return "Firefox";
+  if (/safari/i.test(ua)) return "Safari";
+  return "Other";
+};
+
 /** Counts the values of one field, biggest first. */
 const tally = (values: (string | null)[]) => {
   const counts: Record<string, number> = {};
@@ -73,6 +85,7 @@ export async function GET(req: NextRequest) {
       // Only ads carry a campaign, so most visits have none — listing
       // "Unknown: 40" would be noise rather than information.
       campaigns: tally(people.map((v) => v.campaign).filter(Boolean)),
+      browsers: tally(people.map((v) => browserOf(v.userAgent))),
     });
   } catch (error) {
     console.error("GET /api/visitorStats failed:", error);

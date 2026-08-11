@@ -1,3 +1,4 @@
+import SkipVisitLog from "@/components/SkipVisitLog";
 import Link from "next/link";
 import { PROGRAMS } from "@/lib/site";
 
@@ -14,7 +15,9 @@ export default function NotFound() {
   const popular = POPULAR.map((slug) => PROGRAMS.find((p) => p.slug === slug)!);
 
   return (
-    <main className="error-page">
+    <>
+      <SkipVisitLog />
+      <main className="error-page">
       <div className="error-content">
         <div className="error-code">404</div>
         <h1 className="error-title">Page Not Found</h1>
@@ -43,6 +46,7 @@ export default function NotFound() {
           </ul>
         </div>
       </div>
-    </main>
+      </main>
+    </>
   );
 }

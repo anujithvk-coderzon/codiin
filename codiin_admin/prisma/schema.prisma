@@ -30,8 +30,10 @@ model Visit {
   campaign  String?
   source    String?
   userAgent String?
+  visitorId String?
 
   @@index([createdAt])
+  @@index([visitorId, createdAt])
 }
 
 model Internship {

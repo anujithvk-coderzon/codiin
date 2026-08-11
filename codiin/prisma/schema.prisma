@@ -29,9 +29,11 @@ model Visit {
   source    String?
   campaign  String?
   userAgent String?
+  visitorId String?
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+  @@index([visitorId, createdAt])
 }
 
 model Internship {
