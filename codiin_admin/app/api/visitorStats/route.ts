@@ -4,11 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 const IST = 5.5 * 60 * 60 * 1000;
 
-/* Crawlers say so in their user agent — Googlebot, Bingbot, the AI crawlers,
-   and the link-preview fetchers behind WhatsApp and Facebook shares all match
-   one of these. Not exhaustive and never will be, but it separates the bulk
-   of automated traffic from people, which is the difference that matters when
-   your sir asks how many visitors there were. */
+/* Crawlers are now rejected before a Visit row is written, so this only has
+   to catch rows recorded before that was true. Left in place because those
+   rows stay in the table for the next thirty days. */
 const BOT =
   /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|whatsapp|preview|headless|lighthouse|pingdom|monitor|scrape|curl|wget|python-requests|axios|node-fetch/i;
 
@@ -71,7 +69,9 @@ export async function GET(req: NextRequest) {
       select: { source: true, path: true, campaign: true, userAgent: true },
     });
 
-    // Split before counting, so every breakdown below describes people.
+    /* Crawlers are rejected before anything is written now, so this only
+       finds rows recorded before that was true. It falls to zero once those
+       age out of the thirty-day window. */
     const people = visits.filter((v) => !isBot(v.userAgent));
     const bots = visits.length - people.length;
 
