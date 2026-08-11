@@ -6,8 +6,10 @@ import { NextResponse } from "next/dist/server/web/spec-extension/response";
 export async function GET() {
   const denied = await requireAdmin();             // ← add
     if (denied) return denied;
-const today=new Date();
-today.setHours(0,0,0,0)
+const IST= 5*60*60*1000
+const shifted=new Date(Date.now()+IST)
+shifted.setUTCHours(0,0,0,0)
+const today=new Date(shifted.getTime()-IST)
   try {
     const [todayEnquiryCount, todayVisitorCount] = await Promise.all([
         prisma.user.count({where:{createdAt:{gte:today}}}),
