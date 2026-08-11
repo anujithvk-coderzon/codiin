@@ -213,7 +213,7 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
             {/* The headline figure — everything below it is a way of splitting
                 this one number up. Sticky so it stays legible while the
                 breakdowns scroll under it. */}
-            <div className="sticky top-0 z-10 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 bg-white/95 px-4 py-4 backdrop-blur sm:px-5">
+            <div className="sticky top-0 z-10 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-zinc-200 bg-white/95 px-4 py-3.5 backdrop-blur sm:px-5">
               <span className="font-mono text-3xl leading-none tabular-nums text-zinc-900">
                 {stats.total}
               </span>
@@ -231,26 +231,34 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
               )}
             </div>
 
-            <div className="p-4 sm:p-5">
+            <div className="p-4 pb-1 sm:p-5 sm:pb-2">
               {stats.total === 0 ? (
                 <p className="py-8 text-center text-sm text-zinc-500">
                   Nobody visited on this day.
                 </p>
               ) : (
-                /* Two columns at most. This panel is 768px wide at its widest,
-                   so three columns leaves ~230px each — not enough for a path
-                   like /full-stack-python/articles/virtual-environments.
-                   items-start keeps each card its own height rather than
-                   stretching every card to match the tallest one when one is
-                   expanded. */
-                <div className="grid items-start gap-3 md:grid-cols-2">
+                /* Columns, not a grid. In a grid every card in a row starts
+                   at the same line, so a short "Came from" beside a long
+                   "Landed on" leaves a dead area beneath it and pushes the
+                   next card down past the taller one. Columns let each card
+                   start where the last one ended, which packs them tight
+                   whatever their heights — and heights change every time a
+                   breakdown is expanded.
+
+                   Two at most: this panel is 768px at its widest, and three
+                   columns leaves ~230px each, not enough for a path like
+                   /full-stack-python/articles/virtual-environments. */
+                <div className="columns-1 gap-3 md:columns-2">
                   {panels.map((panel) => (
-                    <Breakdown
-                      key={panel.title}
-                      title={panel.title}
-                      rows={panel.rows}
-                      total={stats.total}
-                    />
+                    // break-inside-avoid stops a card being split down the
+                    // middle and continued in the next column.
+                    <div key={panel.title} className="mb-3 break-inside-avoid">
+                      <Breakdown
+                        title={panel.title}
+                        rows={panel.rows}
+                        total={stats.total}
+                      />
+                    </div>
                   ))}
                 </div>
               )}
