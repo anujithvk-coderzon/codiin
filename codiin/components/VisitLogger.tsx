@@ -46,9 +46,18 @@ function alreadyLogged() {
   }
 }
 
+/* Every browser driven by automation sets this. It is part of the WebDriver
+   specification, so Puppeteer, Playwright and Selenium all report true unless
+   someone has gone out of their way to patch it out — and no real browser
+   ever does. Cheaper and far more precise than guessing from the user agent,
+   which a headless Chrome fills in exactly like the real thing. */
+function automated() {
+  return navigator.webdriver === true;
+}
+
 export default function VisitLogger() {
   useEffect(() => {
-    if (isNotFound() || alreadyLogged()) return;
+    if (isNotFound() || automated() || alreadyLogged()) return;
 
     const params = new URLSearchParams(window.location.search);
     const source = params.get("utm_source") || linkedFrom() || "Direct";
