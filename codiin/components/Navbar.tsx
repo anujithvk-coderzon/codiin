@@ -16,6 +16,7 @@ const DEFAULT_LINKS: NavLink[] = [
   { href: "/#about", label: "About" },
   { href: "/#programs", label: "Programs" },
   { href: "/internship", label: "Internship" },
+  { href: "/one-on-one", label: "1:1 Mentoring" },
   { href: "/events", label: "Events" },
   { href: "/#why-us", label: "Why Us" },
   { href: "/#contact", label: "Contact" },

@@ -11,6 +11,7 @@ const NAV = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/dashboard/enquiries", label: "Course Enquiry" },
   { href: "/dashboard/internships", label: "Internship Requests" },
+  { href: "/dashboard/one-on-one", label: "1:1 Mentoring" },
   { href: "/dashboard/events", label: "Events" },
 ];
 

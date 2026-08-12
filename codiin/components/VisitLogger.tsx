@@ -35,41 +35,62 @@ function visitorId() {
   }
 }
 
-function alreadyLogged() {
+function sessionLogged() {
   try {
-    if (sessionStorage.getItem("codiin:logged")) return true;
-    sessionStorage.setItem("codiin:logged", "1");
-    return false;
+    return sessionStorage.getItem("codiin:logged") !== null;
   } catch {
-
     return false;
   }
 }
 
-/* Every browser driven by automation sets this. It is part of the WebDriver
-   specification, so Puppeteer, Playwright and Selenium all report true unless
-   someone has gone out of their way to patch it out — and no real browser
-   ever does. Cheaper and far more precise than guessing from the user agent,
-   which a headless Chrome fills in exactly like the real thing. */
+function markSession() {
+  try {
+    sessionStorage.setItem("codiin:logged", "1");
+  } catch {
+  }
+}
+
+const DWELL_MS = 3000;
+const WAKE = ["scroll", "pointerdown", "keydown", "touchstart"] as const;
+
+
 function automated() {
   return navigator.webdriver === true;
 }
 
 export default function VisitLogger() {
   useEffect(() => {
-    if (isNotFound() || automated() || alreadyLogged()) return;
+    if (isNotFound() || automated() || sessionLogged()) return;
 
-    const params = new URLSearchParams(window.location.search);
-    const source = params.get("utm_source") || linkedFrom() || "Direct";
+    let done = false;
 
-    axios
-      .post("/api/visitor", {
-        path: window.location.pathname,
-        source,
-        campaign: params.get("utm_campaign"),
-        visitorId: visitorId(),
-      })
-      .catch(() => {});
+    const send = () => {
+      if (done) return;
+      if (document.visibilityState !== "visible") return;
+      done = true;
+      markSession();
+      const params = new URLSearchParams(window.location.search);
+      const source = params.get("utm_source") || linkedFrom() || "Direct";
+      axios
+        .post("/api/visitor", {
+          path: window.location.pathname,
+          source,
+          campaign: params.get("utm_campaign"),
+          visitorId: visitorId(),
+        })
+        .catch(() => {});
+    };
+
+    const timer = window.setTimeout(send, DWELL_MS);
+
+    for (const event of WAKE) {
+      window.addEventListener(event, send, { once: true, passive: true });
+    }
+    
+    return () => {
+      window.clearTimeout(timer);
+      for (const event of WAKE) window.removeEventListener(event, send);
+    };
   }, []);
 
   return null;

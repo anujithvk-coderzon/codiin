@@ -16,6 +16,7 @@ const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/#courses", label: "Courses" },
   { href: "/internship", label: "Internship" },
+  { href: "/one-on-one", label: "1:1 Mentoring" },
   { href: "/events", label: "Events" },
   { href: "/#about", label: "About" },
   { href: "/#contact", label: "Contact" },

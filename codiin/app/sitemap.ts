@@ -27,6 +27,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const oneOnOne: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/one-on-one`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+  ];
+
   const events: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/events`,
@@ -65,5 +74,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.3,
   }));
 
-  return [...home, ...internship, ...events, ...programs, ...articles, ...legal];
+  return [...home, ...internship, ...oneOnOne, ...events, ...programs, ...articles, ...legal];
 }

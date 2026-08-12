@@ -52,6 +52,24 @@ model Internship {
   @@index([createdAt])
 }
 
+model OneOnOne {
+  id            String   @id @default(uuid())
+  name          String
+  email         String
+  country       String
+  dialCode      String
+  phone         String
+  course        String
+  qualification String
+  institution   String
+  fieldOfStudy  String
+  yearOfPass    String
+  message       String?
+  createdAt     DateTime @default(now())
+
+  @@index([createdAt])
+}
+
 model Event {
   id                 String              @id
   slug               String              @unique

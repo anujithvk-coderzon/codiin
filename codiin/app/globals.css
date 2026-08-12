@@ -5423,13 +5423,15 @@ pre code {
    size scale with the viewport across this band only.
    ============================================================================ */
 
-@media (min-width: 769px) and (max-width: 1080px) {
+/* Nine items now that 1:1 Mentoring is in the list, so the squeeze has to
+   start earlier and go tighter than it did at eight. */
+@media (min-width: 769px) and (max-width: 1240px) {
     .nav-links {
-        gap: clamp(10px, 2vw, 32px);
+        gap: clamp(7px, 1.5vw, 28px);
     }
 
     .nav-links a {
-        font-size: 14px;
+        font-size: 13.5px;
     }
 
     .nav-links a.btn-nav {
@@ -6305,4 +6307,105 @@ pre code {
 .event-hero .event-tag-registered {
     background: rgba(16, 185, 129, 0.24);
     color: #a7f3d0;
+}
+
+/* ============================================================================
+   ONE-TO-ONE MENTORING PAGE
+   ============================================================================ */
+
+.oneonone-benefits {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: clamp(18px, 3.5vw, 28px);
+}
+
+.oneonone-benefit {
+    display: grid;
+    /* Fixed icon column, so a two-line heading wraps under itself rather
+       than under the tick. */
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 14px;
+    align-items: start;
+    padding: clamp(20px, 3.5vw, 26px);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+}
+
+.oneonone-benefit:hover {
+    border-color: var(--primary-light);
+    box-shadow: var(--shadow-md);
+}
+
+.oneonone-benefit svg {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+.oneonone-benefit h3 {
+    font-size: clamp(16px, 3.6vw, 17.5px);
+    line-height: 1.35;
+    margin-bottom: 6px;
+}
+
+.oneonone-benefit p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+/* The dial code sits inside the field with the number, so the two read as one
+   phone number rather than two unrelated inputs. */
+.phone-field {
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-primary);
+    transition: all var(--transition-fast);
+}
+
+.phone-field:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.phone-field.error {
+    border-color: var(--error);
+}
+
+.phone-dial {
+    display: flex;
+    align-items: center;
+    /* Not shrinkable: a longer code like +971 must not be squeezed. */
+    flex-shrink: 0;
+    padding: 0 12px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* The input inside loses its own frame — the wrapper carries it now. */
+.form-group .phone-field input {
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.form-group .phone-field input:focus {
+    box-shadow: none;
+}
+
+.field-hint {
+    margin-top: 6px;
+    color: var(--text-light);
+    font-size: 13px;
+    line-height: 1.4;
 }
