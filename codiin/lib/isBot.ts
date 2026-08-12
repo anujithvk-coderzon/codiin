@@ -39,8 +39,22 @@ const BOT = new RegExp(
   "i",
 );
 
-export const isBot = (userAgent: string | null) => {
+/**
+ * @param userAgent      the `user-agent` header
+ * @param acceptLanguage the `accept-language` header
+ */
+export const isBot = (
+  userAgent: string | null,
+  acceptLanguage: string | null,
+) => {
   // No user agent at all is not a browser. Every real one sends it.
   if (!userAgent) return true;
+
+  /* Neither is a request with no Accept-Language. A browser always sends it —
+     it is how the page knows which language to serve — but a script fetching
+     HTML has no reason to, and plenty do not bother. It catches a class of
+     scraper that copies a Chrome user-agent string and stops there. */
+  if (!acceptLanguage) return true;
+
   return BOT.test(userAgent);
 };

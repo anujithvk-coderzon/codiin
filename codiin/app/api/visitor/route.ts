@@ -17,7 +17,8 @@ export async function POST(req: Request) {
     /* Crawlers are turned away here and nothing is written for them. Checked
        before the dedupe, so a crawler cannot take a real visitor's one slot
        for the day and leave the person uncounted. */
-    if (isBot(userAgent)) return new Response(null, { status: 204 })
+    if (isBot(userAgent, req.headers.get("accept-language")))
+      return new Response(null, { status: 204 })
 
     const exist = await prisma.visit.findFirst({
       where: data.visitorId
