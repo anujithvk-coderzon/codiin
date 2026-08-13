@@ -95,39 +95,39 @@ const SUBJECTS = [
 
 const BENEFITS = [
   {
-    title: "Sessions at your pace",
-    desc: "Nobody moves on because the rest of the batch did. You go as fast or as slowly as the topic needs.",
+    title: "Set the pace yourself",
+    desc: "Skip what you already know and spend the time on what you do not. No fixed syllabus setting the speed.",
   },
   {
-    title: "A timetable that fits yours",
-    desc: "Evenings, weekends, or early mornings before work. Agreed with your mentor, not fixed by a batch schedule.",
+    title: "A schedule around your work",
+    desc: "Evenings, weekends, early mornings. Agreed directly between you and your mentor.",
   },
   {
-    title: "Your questions, answered properly",
-    desc: "No waiting your turn and no question too basic. The whole session is yours.",
+    title: "Ask anything, for the full hour",
+    desc: "The full session is yours, so you can ask as much as you want and go back over anything.",
   },
   {
-    title: "Built around your goal",
-    desc: "A job switch, a college project, a specific stack at work — the plan is written for that, not for a syllabus.",
+    title: "A plan written for your goal",
+    desc: "A new job, a promotion, an idea you want to build. The plan is written to get you there.",
   },
 ];
 
 const STEPS = [
   {
     title: "Tell us what you need",
-    desc: "Fill in the form below with your background and what you want to learn.",
+    desc: "Tell us your background and what you want to be able to do.",
   },
   {
     title: "A short call",
-    desc: "We talk through where you are now, what you're aiming at, and how much time you have.",
+    desc: "A short call to agree the goal, the starting point and the time you can commit.",
   },
   {
     title: "Meet your mentor",
-    desc: "We match you with someone who works in that field, and you agree a schedule between you.",
+    desc: "You are matched with a mentor for that field, and the two of you set the schedule.",
   },
   {
     title: "Start learning",
-    desc: "One-to-one sessions, with work between them and a mentor who knows where you left off.",
+    desc: "Focused sessions, practice in between, and a mentor who knows exactly where you are.",
   },
 ];
 
@@ -150,10 +150,9 @@ export default function OneOnOnePage() {
                 your pace
               </h1>
               <p className="program-hero-desc">
-                Some people learn best in a room with twenty others. Some
-                don&apos;t. If you want undivided attention from someone who
-                does this work for a living, this is that — personal sessions,
-                built around your goal and your timetable.
+                One student, one mentor, one plan. You decide what you want to
+                achieve, we build the sessions around it, and you move at
+                whatever speed suits you — so you get there faster.
               </p>
               <div className="program-hero-meta">
                 <div className="meta-item">
@@ -186,13 +185,12 @@ export default function OneOnOnePage() {
             <div className="section-header">
               <span className="section-badge">Why one-to-one</span>
               <h2 className="section-title">
-                The whole session is{" "}
-                <span className="gradient-text">yours</span>
+                Learn it <span className="gradient-text">faster</span>
               </h2>
               <p className="section-subtitle">
-                A batch has to move at the speed of the group. A mentor moves at
-                the speed of you — which usually means faster on what you
-                already know, and slower where it actually matters.
+                In a batch, everyone moves at the same speed. One-to-one, you
+                move quickly through what you already know and spend the real
+                time on the parts that take practice.
               </p>
             </div>
 
@@ -219,7 +217,7 @@ export default function OneOnOnePage() {
                 <span className="gradient-text">one-to-one</span>
               </h2>
               <p className="section-subtitle">
-                Every program we run as a batch can also be taken personally.
+                Every program we run as a batch is also available one-to-one.
                 Follow any card for the full syllabus — the material is the
                 same, the delivery is not.
               </p>
@@ -275,12 +273,12 @@ export default function OneOnOnePage() {
                 <span className="section-badge">Request a mentor</span>
                 <h2 className="section-title">
                   Tell us what you want{" "}
-                  <span className="gradient-text">to learn</span>
+                  <span className="gradient-text">to build</span>
                 </h2>
                 <p>
-                  Fill this in and a coordinator will call you to talk it
-                  through — what you already know, what you&apos;re aiming at,
-                  and how much time you can give it. There is no charge for that
+                  Fill this in and a coordinator will call to map out the plan —
+                  where you are now, what you want to be able to do, and the
+                  fastest route between the two. No charge for that
                   conversation.
                 </p>
                 <ul className="register-benefits">
@@ -290,7 +288,7 @@ export default function OneOnOnePage() {
                   </li>
                   <li>
                     <CheckIcon />
-                    Mentors who work in the field
+                    A mentor matched to your field
                   </li>
                   <li>
                     <CheckIcon />

@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { whatsappHref } from "@/lib/site";
 import type { Metadata } from "next";
 import EventCardCta from "@/components/EventCardCta";
+import EventCountdown from "@/components/EventCountdown";
 import EventRegisteredTag from "@/components/EventRegisteredTag";
 import Image from "next/image";
 
@@ -23,12 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * Events are created in the admin, so this page cannot be baked at build time
- * like the rest of the site. Sixty seconds keeps it effectively static — one
- * render is shared by everyone until it expires — while a newly published
- * event still appears within the minute.
- */
+
 export const revalidate = 60;
 
 const NAV_LINKS = [
@@ -148,6 +144,7 @@ export default async function EventsPage() {
                             {event.isPaidEvent ? "Paid" : "Free"}
                           </span>
                           <EventRegisteredTag slug={event.slug} />
+                          <EventCountdown deadline={event.applicationEndDate} />
                         </div>
 
                         <h2>{event.name}</h2>

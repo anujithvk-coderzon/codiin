@@ -10,6 +10,15 @@ import Programs from "@/components/home/Programs";
 import Register from "@/components/home/Register";
 import WhyUs from "@/components/home/WhyUs";
 import { CONTACT, SITE_URL, SOCIAL } from "@/lib/site";
+import EventPromo from "@/components/EventPromo";
+import { isClosed } from "@/lib/events";
+import { prisma } from "@/lib/prisma";
+
+/* The home page now reads one row, so it can no longer be baked once at build
+   time. Sixty seconds keeps it effectively static — one render shared by
+   everyone until it expires — while a newly published event still surfaces
+   within the minute. */
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title:
@@ -93,7 +102,35 @@ const LOCAL_BUSINESS = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  /* The newest event still open for applications. Wrapped because this page is
+     prerendered: an unreachable database would otherwise fail the deploy of
+     every page, not just this one. */
+  let promo: {
+    slug: string;
+    name: string;
+    applicationEndDate: string;
+    imageUrl: string | null;
+  } | null = null;
+  try {
+    const upcoming = await prisma.event.findMany({
+      where: { endDate: { gte: new Date() } },
+      orderBy: { createdAt: "desc" },
+      select: {
+        slug: true,
+        name: true,
+        applicationEndDate: true,
+        imageUrl: true,
+      },
+    });
+    /* Filtered here rather than in the query: applicationEndDate is a String
+       column holding two formats, so a SQL comparison would sort a bare
+       "2026-08-20" against a full timestamp and get it wrong. */
+    promo = upcoming.find((event) => !isClosed(event.applicationEndDate)) ?? null;
+  } catch (error) {
+    console.error("Could not load the promo event:", error);
+  }
+
   return (
     <>
       <JsonLd data={ORGANIZATION} />
@@ -111,6 +148,14 @@ export default function HomePage() {
       </main>
 
       <Footer variant="home" />
+      {promo && (
+        <EventPromo
+          slug={promo.slug}
+          name={promo.name}
+          deadline={promo.applicationEndDate}
+          imageUrl={promo.imageUrl}
+        />
+      )}
       <WhatsAppFloat />
     </>
   );

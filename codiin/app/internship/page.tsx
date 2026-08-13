@@ -45,10 +45,10 @@ const NAV_LINKS = [
 ];
 
 const HIGHLIGHTS = [
-  "Work on a real project, not a sample exercise",
-  "One-to-one guidance from a working professional",
-  "Flexible duration, from one month upward",
-  "Certificate and a portfolio piece to show recruiters",
+  "A real project with real users, not a practice exercise",
+  "One-to-one mentorship throughout the project",
+  "Your choice of duration, from one month upward",
+  "A certificate, and finished work you can show in interviews",
 ];
 
 /**
@@ -107,19 +107,19 @@ const TRACKS = [
 const STEPS = [
   {
     title: "Apply",
-    desc: "Send us the form below with your field, duration and college.",
+    desc: "Send us your field, the duration you want and where you study.",
   },
   {
     title: "Talk it through",
-    desc: "A short call to understand where you are and what you want to build.",
+    desc: "A short call to agree what you will work on and what you want out of it.",
   },
   {
     title: "Get matched",
-    desc: "We place you on a track and a project that fits your year and timeline.",
+    desc: "You are placed on a track and a project that suit your level and timeline.",
   },
   {
     title: "Build and ship",
-    desc: "You work with a mentor through to something finished and demonstrable.",
+    desc: "You build it through to something finished, reviewed, and ready to show.",
   },
 ];
 
@@ -142,10 +142,9 @@ export default function InternshipPage() {
                 <span className="gradient-text">industry experience</span>
               </h1>
               <p className="program-hero-desc">
-                A mentor-led internship in Kochi for students in any year of
-                study. You join a real project, work alongside someone who does
-                this for a living, and finish with code you can defend in an
-                interview.
+                Work on a real project that people actually use. You will write
+                code that becomes part of it, learn how professional teams build
+                software, and finish with something solid to show an employer.
               </p>
               <div className="program-hero-meta">
                 <div className="meta-item">
@@ -176,14 +175,14 @@ export default function InternshipPage() {
         <section className="internship-highlights-section">
           <div className="container">
             <div className="section-header">
-              <span className="section-badge">What you get</span>
+              <span className="section-badge">What you build</span>
               <h2 className="section-title">
                 Built around <span className="gradient-text">real work</span>
               </h2>
               <p className="section-subtitle">
-                Most internships hand you a tutorial and a certificate. This one
-                is structured the way our mentorship programs are: a project, a
-                mentor, and a deadline.
+                Most internships hand out a tutorial and a certificate. This
+                one runs the way our mentorship programs do: a real project, a
+                mentor who reviews your work, and a deadline that matters.
               </p>
             </div>
 
@@ -262,13 +261,13 @@ export default function InternshipPage() {
               <div className="register-content">
                 <span className="section-badge">Apply now</span>
                 <h2 className="section-title">
-                  Tell us where you are{" "}
-                  <span className="gradient-text">right now</span>
+                  Tell us what you want{" "}
+                  <span className="gradient-text">to work on</span>
                 </h2>
                 <p>
-                  Fill this in and we will get back to you about availability
-                  for your field and dates. Applications from any year of study
-                  are welcome, including students who have already graduated.
+                  Send us your field and your dates, and we will come back to
+                  you on availability. Open to students in any year of study and
+                  to recent graduates.
                 </p>
                 <ul className="register-benefits">
                   <li>

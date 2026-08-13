@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import EventRegisterForm from "@/components/EventRegisterForm";
+import EventCountdown from "@/components/EventCountdown";
 import EventRegisteredTag from "@/components/EventRegisteredTag";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { prisma } from "@/lib/prisma";
@@ -151,6 +152,12 @@ export default async function EventPage({
                   </div>
                 )}
               </dl>
+
+              {/* Only while there is still time — once it has passed, the
+                  "Applications closed" tag above already says so. */}
+              {!closed && (
+                <EventCountdown deadline={event.applicationEndDate} />
+              )}
 
               <div className="program-hero-cta">
                 {/* Registration is a form, not a chat. Once applications have
