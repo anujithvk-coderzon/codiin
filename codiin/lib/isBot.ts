@@ -54,6 +54,28 @@ const BOT = new RegExp(
  * @param userAgent      the `user-agent` header
  * @param acceptLanguage the `accept-language` header
  */
+
+/* A stale Chrome version is one of the most reliable fingerprints there is.
+   Chrome updates itself silently, so a real installation is within a version
+   or two of current. A scraper hardcodes a user-agent string when it is
+   written and never touches it again — and one rotating through a list of old
+   ones gives itself away completely.
+
+   The evidence for this floor: real traffic here sits at 150-151, the
+   automated traffic at 103-137, and nothing at all appears in between.
+
+   NEEDS RAISING as Chrome advances — review yearly. Remove it once edge bot
+   rules are handling this properly, which they do without maintenance. */
+const OLDEST_REAL_CHROME = 140;
+
+/* Address blocks seen doing nothing but crawling. Whack-a-mole by nature —
+   the operator moves and this stops working — so it is a stopgap for one
+   specific pool, not a strategy. */
+const BLOCKED_PREFIXES = ["43.172.", "43.173.", "65.21."];
+
+export const isBlockedNetwork = (ip: string) =>
+  BLOCKED_PREFIXES.some((prefix) => ip.startsWith(prefix));
+
 export const isBot = (
   userAgent: string | null,
   acceptLanguage: string | null,
@@ -67,5 +89,13 @@ export const isBot = (
      scraper that copies a Chrome user-agent string and stops there. */
   if (!acceptLanguage) return true;
 
-  return BOT.test(userAgent);
+  if (BOT.test(userAgent)) return true;
+
+  /* Only applied when the agent claims to be Chrome, so Safari, Firefox and
+     anything else is untouched. A missing match leaves `version` NaN, and
+     NaN < 140 is false — so an unparseable string is not treated as a bot. */
+  const version = Number(userAgent.match(/Chrome\/(\d+)/)?.[1]);
+  if (version < OLDEST_REAL_CHROME) return true;
+
+  return false;
 };

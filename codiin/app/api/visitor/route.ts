@@ -1,4 +1,4 @@
-import { isBot } from "@/lib/isBot";
+import { isBlockedNetwork, isBot } from "@/lib/isBot";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
@@ -17,7 +17,10 @@ export async function POST(req: Request) {
     /* Crawlers are turned away here and nothing is written for them. Checked
        before the dedupe, so a crawler cannot take a real visitor's one slot
        for the day and leave the person uncounted. */
-    if (isBot(userAgent, req.headers.get("accept-language")))
+    if (
+      isBlockedNetwork(ip) ||
+      isBot(userAgent, req.headers.get("accept-language"))
+    )
       return new Response(null, { status: 204 })
 
     const exist = await prisma.visit.findFirst({
