@@ -21,6 +21,17 @@ const BOT = new RegExp(
   [
     // Self-declared crawlers
     "bot", "crawl", "spider", "slurp", "scrape", "index",
+    /* Google runs plenty of crawlers whose names contain no "bot" at all —
+       GoogleOther for non-search product work, Google-NotebookLM when someone
+       pastes a URL into it, Google-Extended, Google-InspectionTool,
+       APIs-Google, Mediapartners-Google. Matched on the hyphen rather than on
+       "google" alone, because a real person using the Google app on an iPhone
+       sends "GSA/" in an otherwise ordinary Safari user agent and must not be
+       caught. None of these affect search ranking — Googlebot itself is
+       already covered by "bot" above. */
+    "googleother", "google-", "-google",
+    // Other AI fetchers that do not say "bot" either.
+    "claude-", "meta-external", "duckassist", "ccbot",
     // Named ones that do not contain any of the above
     "bytespider", "yandex", "baidu", "sogou", "duckduck", "petal",
     "perplexity", "chatgpt", "anthropic", "cohere",
