@@ -36,7 +36,6 @@ model Visit {
   @@index([visitorId, createdAt])
 }
 
-
 model Internship {
   id            String   @id
   fullName      String
@@ -106,7 +105,7 @@ model EventRegistration {
   yearOfPass DateTime
   howYouKnow String
   createdAt  DateTime @default(now())
-  Event      Event    @relation(fields: [slug], references: [slug])
+  Event      Event    @relation(fields: [slug], references: [slug], onDelete: Cascade)
 
   @@index([slug, email])
   @@index([createdAt])

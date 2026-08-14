@@ -3,6 +3,7 @@
 import axios, { isAxiosError } from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 type EventRow = {
   id: string;
@@ -95,6 +96,41 @@ const Page = () => {
   const [events, setEvents] = useState<EventRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  /* Two steps, because this deletes rows and their posters and neither comes
+     back. */
+  const [confirmingCleanup, setConfirmingCleanup] = useState(false);
+  const [cleaning, setCleaning] = useState(false);
+
+  const cleanup = async () => {
+    setCleaning(true);
+    try {
+      const res = await axios.delete<{ deleted: number }>(
+        "/api/createEvent/cleanup",
+      );
+      const { deleted } = res.data;
+
+      if (deleted === 0) toast("No finished events to remove");
+      else
+        toast.success(
+          `Removed ${deleted} finished event${deleted === 1 ? "" : "s"}`,
+        );
+
+      if (deleted > 0)
+        setEvents((prev) =>
+          prev.filter((event) => new Date(event.endDate) >= new Date()),
+        );
+      setConfirmingCleanup(false);
+    } catch {
+      toast.error("Could not remove finished events");
+    } finally {
+      setCleaning(false);
+    }
+  };
+
+  // Only offered when there is something for it to do.
+  const finishedCount = events.filter(
+    (event) => new Date(event.endDate) < new Date(),
+  ).length;
 
   useEffect(() => {
     const load = async () => {
@@ -131,7 +167,43 @@ const Page = () => {
                 : `${events.length} event${events.length > 1 ? "s" : ""}, newest first.`}
           </p>
         </div>
-        {events.length > 0 && <CreateButton />}
+        <div className="flex flex-wrap items-center gap-2">
+          {finishedCount > 0 &&
+            (confirmingCleanup ? (
+              <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5">
+                <span className="text-xs text-red-800">
+                  Delete {finishedCount} finished event
+                  {finishedCount === 1
+                    ? " and its poster?"
+                    : "s and their posters?"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setConfirmingCleanup(false)}
+                  className="rounded-md border border-red-300 bg-white px-2 py-0.5 text-xs font-medium text-red-700 transition hover:bg-red-100"
+                >
+                  Keep
+                </button>
+                <button
+                  type="button"
+                  onClick={cleanup}
+                  disabled={cleaning}
+                  className="rounded-md bg-red-600 px-2 py-0.5 text-xs font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
+                >
+                  {cleaning ? "Deleting…" : "Delete"}
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setConfirmingCleanup(true)}
+                className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm font-medium text-zinc-600 transition hover:border-red-300 hover:text-red-700"
+              >
+                Clear finished ({finishedCount})
+              </button>
+            ))}
+          {events.length > 0 && <CreateButton />}
+        </div>
       </header>
 
       {loading ? (

@@ -95,3 +95,35 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+/**
+ * Purges visits older than the window the panel shows.
+ *
+ * The dashboard covers thirty days, so anything before the oldest visible day
+ * is data nobody can look at — it only grows the table.
+ */
+export async function DELETE() {
+  const denied = await requireAdmin();
+  if (denied) return denied;
+
+  try {
+    // Midnight IST on the oldest day still shown, using the same arithmetic
+    // as the GET above so the two can never disagree about the boundary.
+    const shifted = new Date(Date.now() + IST);
+    shifted.setUTCHours(0, 0, 0, 0);
+    const todayStart = new Date(shifted.getTime() - IST);
+    const cutoff = new Date(todayStart.getTime() - 29 * 86400000);
+
+    const { count } = await prisma.visit.deleteMany({
+      where: { createdAt: { lt: cutoff } },
+    });
+
+    return NextResponse.json({ deleted: count });
+  } catch (error) {
+    console.error("DELETE /api/visitorStats failed:", error);
+    return NextResponse.json(
+      { message: "Could not delete old visits" },
+      { status: 500 },
+    );
+  }
+}

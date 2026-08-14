@@ -116,7 +116,7 @@ model EventRegistration {
   yearOfPass DateTime
   howYouKnow String
   createdAt  DateTime @default(now())
-  event      Event    @relation(fields:[slug], references: [slug])
+  event      Event    @relation(fields:[slug], references: [slug], onDelete: Cascade)
   @@index([slug, email])
   @@index([slug])
   @@index([createdAt])

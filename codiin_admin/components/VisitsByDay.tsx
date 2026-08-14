@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 type Slice = { name: string; count: number };
 type DayStats = {
@@ -111,6 +112,27 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
   const [days, setDays] = useState<string[]>([]);
   const [stats, setStats] = useState<DayStats | null>(null);
   const [failed, setFailed] = useState(false);
+  /* Two steps rather than one: this removes rows that cannot be recovered, so
+     the first click asks and the second does it. */
+  const [confirmingPurge, setConfirmingPurge] = useState(false);
+  const [purging, setPurging] = useState(false);
+
+  const purge = async () => {
+    setPurging(true);
+    try {
+      const res = await axios.delete<{ deleted: number }>("/api/visitorStats");
+      toast.success(
+        res.data.deleted === 0
+          ? "Nothing older than 30 days to remove"
+          : `Removed ${res.data.deleted} visit${res.data.deleted === 1 ? "" : "s"} older than 30 days`,
+      );
+      setConfirmingPurge(false);
+    } catch {
+      toast.error("Could not remove old visits");
+    } finally {
+      setPurging(false);
+    }
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -262,6 +284,45 @@ const VisitsByDay = ({ onClose }: { onClose: () => void }) => {
                   ))}
                 </div>
               )}
+
+              {/* Only the last thirty days are ever shown, so anything older
+                  is rows nobody can look at. */}
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-200 pt-4">
+                <p className="text-xs text-zinc-500">
+                  Only the last 30 days are shown.
+                </p>
+
+                {confirmingPurge ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-zinc-600">
+                      Delete everything older?
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setConfirmingPurge(false)}
+                      className="rounded-lg border border-zinc-300 bg-white px-2.5 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50"
+                    >
+                      Keep
+                    </button>
+                    <button
+                      type="button"
+                      onClick={purge}
+                      disabled={purging}
+                      className="rounded-lg bg-red-600 px-2.5 py-1 text-xs font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
+                    >
+                      {purging ? "Deleting…" : "Delete"}
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingPurge(true)}
+                    className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-600 transition hover:border-red-300 hover:text-red-700"
+                  >
+                    Delete older data
+                  </button>
+                )}
+              </div>
             </div>
           </>
         )}
