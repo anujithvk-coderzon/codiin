@@ -111,6 +111,7 @@ export default async function HomePage() {
     name: string;
     applicationEndDate: string;
     imageUrl: string | null;
+    isPaidEvent: boolean;
   } | null = null;
   try {
     const upcoming = await prisma.event.findMany({
@@ -121,6 +122,7 @@ export default async function HomePage() {
         name: true,
         applicationEndDate: true,
         imageUrl: true,
+        isPaidEvent: true,
       },
     });
     /* Filtered here rather than in the query: applicationEndDate is a String
@@ -154,6 +156,7 @@ export default async function HomePage() {
           name={promo.name}
           deadline={promo.applicationEndDate}
           imageUrl={promo.imageUrl}
+          isPaid={promo.isPaidEvent}
         />
       )}
       <WhatsAppFloat />

@@ -6468,47 +6468,42 @@ pre code {
 
 /* ============================================================================
    HOME PAGE EVENT PROMO
-   Sits above the WhatsApp button, which changes size with the viewport. Rather
-   than re-guessing a `bottom` at every breakpoint, the button's offset and
-   height are named here and the clearance is derived from them — so the two
-   stay in step, and a notched phone's home indicator is added on top.
+
+   Built on --gradient-hero, the same deep indigo the home hero, the course
+   heroes and the event hero all use. A white card would have read as a browser
+   notification sitting on top of the site; this reads as part of it, and it
+   separates cleanly from the white page behind it without needing a heavy
+   border.
+
+   Clears the WhatsApp button, which is 60px tall at bottom: 24px.
    ============================================================================ */
 
 .event-promo {
-    /* WhatsApp button: bottom: 24px, 60px tall. */
-    --promo-wa-offset: 24px;
-    --promo-wa-size: 60px;
-    --promo-side: 24px;
     position: fixed;
-    right: var(--promo-side);
-    bottom: calc(
-        var(--promo-wa-offset) + var(--promo-wa-size) + 16px +
-        env(safe-area-inset-bottom, 0px)
-    );
+    right: 24px;
+    bottom: 100px;
     z-index: 999; /* under the WhatsApp button's 1000 */
-    width: min(320px, calc(100vw - var(--promo-side) * 2));
-    /* Never taller than the space above the button, whatever the content —
-       a long event name on a short screen would otherwise run off the top. */
-    max-height: calc(100vh - var(--promo-wa-offset) - var(--promo-wa-size) - 32px);
-    /* `svh` is the viewport with the mobile browser's chrome showing, which is
-       the state the card has least room in. Ignored where it is unsupported,
-       leaving the `vh` line above. */
-    max-height: calc(100svh - var(--promo-wa-offset) - var(--promo-wa-size) - 32px);
+    width: min(330px, calc(100vw - 48px));
     overflow: hidden;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
+    background: var(--gradient-hero);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
+    /* The indigo halo is already a token, and it is what makes the card feel
+       lit rather than pasted on. */
+    box-shadow: var(--shadow-xl), var(--shadow-glow);
     animation: event-promo-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* A brand strip along the top, so the card is recognisably ours at a glance
-   rather than a generic white rectangle. */
+/* The brand gradient along the top edge, picking up the violet and cyan that
+   the section headings use. */
 .event-promo::before {
     content: "";
-    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
-    background: var(--gradient-primary);
+    background: var(--gradient-text);
 }
 
 @keyframes event-promo-in {
@@ -6518,47 +6513,40 @@ pre code {
     }
 }
 
-/* Every interior size below is a clamp rather than a value re-declared at each
-   breakpoint: the card is full-bleed on a phone, so `vw` tracks its real width
-   there, and above ~460px — where the card is a fixed 320px — every clamp has
-   already settled on its maximum. The result scales continuously from 320px up
-   instead of jumping at two or three arbitrary widths. */
 .event-promo-link {
     display: block;
-    padding: clamp(11px, 3vw, 14px) clamp(12px, 3.6vw, 16px) clamp(13px, 4vw, 16px);
+    padding: 14px 16px 15px;
     transition: background var(--transition-base);
 }
 
 .event-promo-link:hover {
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.04);
 }
 
-/* Poster and titles side by side. */
 .event-promo-head {
     display: flex;
     align-items: flex-start;
-    gap: clamp(10px, 2.8vw, 12px);
+    gap: 12px;
 }
 
+/* A light tile behind the poster: most posters are designed for white, and on
+   a deep indigo card they would otherwise float in the dark. */
 .event-promo-thumb {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    width: clamp(44px, 13.5vw, 60px);
-    height: clamp(44px, 13.5vw, 60px);
-    /* A little breathing room, so a poster with content to its edges is not
-       flush against the tile's border. */
-    padding: clamp(3px, 0.9vw, 4px);
+    width: 52px;
+    height: 52px;
+    padding: 4px;
     overflow: hidden;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    background: var(--bg-secondary);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* Contained, never cropped. A poster carries its title and dates as pixels,
-   and `cover` takes those off the edges first — which is exactly what makes a
-   thumbnail look broken rather than small. */
+   and `cover` takes those off the edges first. */
 .event-promo-img {
     max-width: 100%;
     max-height: 100%;
@@ -6570,34 +6558,40 @@ pre code {
 
 .event-promo-titles {
     display: block;
-    min-width: 0; /* lets the name clamp instead of forcing the row wider */
-    /* Room for the close button, which overlaps this corner. */
-    padding-right: 26px;
+    min-width: 0;
+    /* Room for the close button and the price pill above. */
+    padding-right: 30px;
 }
 
 .event-promo-badge {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 4px;
-    color: var(--primary);
-    font-size: clamp(9.75px, 2.5vw, 10.5px);
+    margin-bottom: 5px;
+    color: var(--primary-light);
+    font-size: 10.5px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.08em;
 }
 
 .event-promo-dot {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--primary);
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
     animation: event-promo-pulse 2s ease-in-out infinite;
 }
 
 @keyframes event-promo-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
+    50% { opacity: 0.35; transform: scale(0.75); }
+}
+
+.event-promo-titleline {
+    display: block;
+    min-width: 0;
 }
 
 .event-promo-name {
@@ -6605,148 +6599,270 @@ pre code {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    color: var(--text-primary);
-    font-size: clamp(13.5px, 3.4vw, 15px);
-    font-weight: 600;
-    line-height: 1.35;
-    /* A single unbroken word — some event names are hashtags — would otherwise
-       push the row wider than the card. */
-    overflow-wrap: anywhere;
-}
-
-/* Stacked by default; the phone rule below turns this into a single row. */
-.event-promo-foot {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: clamp(10px, 2.8vw, 12px);
-}
-
-/* The countdown gets its own band across the card — it is the reason to look,
-   and inline with the text it read as an afterthought. */
-.event-promo-timer {
-    display: block;
     min-width: 0;
-    padding: clamp(7px, 2.2vw, 9px) clamp(9px, 2.8vw, 12px);
-    border-radius: 10px;
-    background: rgba(99, 102, 241, 0.08);
-    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-/* Inside the band the pill loses its own background and fills the row. */
+/* Pinned top right, opposite the badge and just left of the close button.
+   Absolute rather than in the flow, so it costs no height at any width — and
+   it stays visible on a phone, where the badge row is hidden. */
+.event-promo-price {
+    position: absolute;
+    top: 13px;
+    right: 42px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Free is the more persuasive of the two, so it is the one that gets colour. */
+.event-promo-price.is-free {
+    background: rgba(16, 185, 129, 0.22);
+    color: #6ee7b7;
+}
+
+/* An inset panel rather than a tinted box — on a dark surface, recessed reads
+   as a display, which is what a countdown should look like. */
+/* An inset panel rather than a tinted box — on a dark surface, recessed reads
+   as a display, which is what a countdown should look like. The label sits on
+   the same line as the figures: stacked above it cost fifteen pixels of a card
+   that should not be tall in the first place. */
+.event-promo-timer {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-top: 11px;
+    padding: 7px 11px;
+    border-radius: 9px;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
 .event-promo-timer .event-countdown {
-    display: block;
+    display: inline;
     margin: 0;
     padding: 0;
     background: none;
-    font-size: clamp(12.5px, 3.2vw, 14px);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
     letter-spacing: 0.02em;
-    /* "3d : 04h : 08m : 39s" breaking mid-figure looks like a bug, so it is
-       kept on one line and the band is sized to hold it. */
-    white-space: nowrap;
 }
 
 .event-promo-timer .event-countdown-label {
-    display: block;
-    margin: 0 0 2px;
-    font-size: clamp(9.75px, 2.5vw, 10.5px);
-    font-weight: 600;
+    display: inline;
+    /* The gap has to be a margin, not the panel's flex gap: the panel has a
+       single child, and the label and the figures live inside it. */
+    margin: 0 8px 0 0;
+    color: var(--primary-light);
+    font-size: 9.5px;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.07em;
-    opacity: 0.7;
+    letter-spacing: 0.09em;
+    opacity: 1;
+    white-space: nowrap;
 }
 
 .event-promo-cta {
     display: block;
-    color: var(--primary);
-    font-size: clamp(12.5px, 3vw, 13px);
+    margin-top: 10px;
+    color: #fff;
+    font-size: 13px;
     font-weight: 600;
-    white-space: nowrap;
 }
 
 .event-promo-close {
     position: absolute;
-    top: 7px;
-    right: 6px;
+    top: 10px;
+    right: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* 34px square: close to a comfortable tap target without covering the
-       title, which is padded out of its way. */
-    width: 34px;
-    height: 34px;
-    background: none;
+    width: 26px;
+    height: 26px;
+    background: rgba(255, 255, 255, 0.08);
     border: 0;
     border-radius: 50%;
-    color: var(--text-light);
-    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 18px;
     line-height: 1;
     cursor: pointer;
     transition: all var(--transition-base);
 }
 
 .event-promo-close:hover {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
 }
 
-/* Tablet and below: the card keeps its corner but gives up a little width so
-   it never crowds the page behind it. The WhatsApp button shrinks to 54px at
-   bottom: 16px here, and the clearance follows from that. */
+/* Tablet: keeps its corner, gives up a little width. */
 @media (max-width: 768px) {
     .event-promo {
-        --promo-wa-offset: 16px;
-        --promo-wa-size: 54px;
-        --promo-side: 20px;
-        width: min(300px, calc(100vw - var(--promo-side) * 2));
+        right: 20px;
+        bottom: 96px;
+        width: min(310px, calc(100vw - 40px));
     }
 }
 
-/* Phone: it spans the width rather than floating in a corner — a 300px card
-   on a 360px screen leaves an awkward strip beside it — and the timer and the
-   call to action share one row so the card stays short enough to leave the
-   page behind it readable. */
-@media (max-width: 520px) {
+/* Phone: the desktop card is five stacked pieces — badge, poster, name,
+   countdown panel, call to action — which is far too much of a small screen
+   for a prompt. Below 560px it collapses to one row: poster, name, and the
+   countdown beneath the name. The badge goes (a poster and a countdown are
+   self-evidently an event) and so does "Register now" (the whole card is
+   already a link). */
+@media (max-width: 560px) {
+    /* Anchored right with a cap rather than stretched edge to edge. A card
+       spanning the full width reads as a banner the page has to work around;
+       one occupying two thirds of it reads as a card sitting on top. */
     .event-promo {
-        --promo-side: 12px;
-        left: var(--promo-side);
-        width: auto;
+        right: 12px;
+        left: auto;
+        bottom: 92px;
+        width: min(276px, calc(100vw - 24px));
+        border-radius: 14px;
     }
 
-    .event-promo-foot {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
+    .event-promo-link {
+        padding: 10px 12px;
     }
 
-    /* The band takes what is left after the fixed-width action, and its own
-       min-width: 0 lets it do so rather than forcing the row wider. */
-    .event-promo-timer {
-        flex: 1 1 auto;
-        text-align: left;
+    .event-promo-head {
+        gap: 11px;
+        align-items: flex-start;
     }
 
+    .event-promo-thumb {
+        width: 42px;
+        height: 42px;
+        padding: 3px;
+        border-radius: 9px;
+    }
+
+    /* The badge stays — without it the card does not say what it is. Only
+       "Register now" goes, since the whole card is already a link. */
     .event-promo-cta {
-        flex: 0 0 auto;
+        display: none;
     }
-}
 
-/* 320-400px: the tightest real screens. The button drops to 50px at bottom:
-   12px, the name is held to one line — two would push the card too tall — and
-   the action loses a word it does not need to be understood. */
-@media (max-width: 400px) {
-    .event-promo {
-        --promo-wa-offset: 12px;
-        --promo-wa-size: 50px;
-        --promo-side: 10px;
+    .event-promo-badge {
+        margin-bottom: 3px;
+        font-size: 9.5px;
+        letter-spacing: 0.07em;
+    }
+
+    .event-promo-titles {
+        /* Clears the pill and the close button, which share the top line. */
+        padding-right: 58px;
     }
 
     .event-promo-name {
         -webkit-line-clamp: 1;
+        font-size: 14px;
     }
 
-    .event-promo-cta-word {
-        display: none;
+    /* Level with the badge, opposite it — the same arrangement as the wide
+       card, just smaller. */
+    .event-promo-price {
+        top: 11px;
+        bottom: auto;
+        right: 38px;
+        padding: 2px 6px;
+        font-size: 9px;
+    }
+
+    .event-promo-close {
+        top: 9px;
+        right: 8px;
+        width: 26px;
+        height: 26px;
+        font-size: 17px;
+    }
+
+
+
+    /* Out of its panel and onto a plain line under the title. */
+    .event-promo-timer {
+        margin-top: 2px;
+        padding: 0;
+        background: none;
+        border: 0;
+        text-align: left;
+    }
+
+    .event-promo-timer .event-countdown {
+        font-size: 12.5px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+    }
+
+    .event-promo-timer .event-countdown-label {
+        display: inline;
+        margin: 0 5px 0 0;
+        font-size: 12.5px;
+        font-weight: 600;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+}
+
+/* 320-400px: the tightest real screens, where the strip has to earn every
+   pixel it takes from the page behind it. */
+@media (max-width: 400px) {
+    .event-promo {
+        right: 10px;
+        left: auto;
+        bottom: 88px;
+        width: min(256px, calc(100vw - 20px));
+    }
+
+    .event-promo-link {
+        padding: 8px 10px;
+    }
+
+    .event-promo-head {
+        gap: 9px;
+    }
+
+    .event-promo-thumb {
+        width: 36px;
+        height: 36px;
+        padding: 2px;
+        border-radius: 8px;
+    }
+
+    .event-promo-titles {
+        padding-right: 52px;
+    }
+
+    .event-promo-name {
+        font-size: 13px;
+    }
+
+    .event-promo-price {
+        top: 9px;
+        right: 32px;
+        padding: 2px 5px;
+        font-size: 8.5px;
+    }
+
+    .event-promo-close {
+        right: 6px;
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
+    }
+
+    .event-promo-timer .event-countdown,
+    .event-promo-timer .event-countdown-label {
+        font-size: 11.5px;
     }
 }
 

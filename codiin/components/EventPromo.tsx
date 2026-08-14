@@ -16,11 +16,13 @@ export default function EventPromo({
   name,
   deadline,
   imageUrl,
+  isPaid,
 }: {
   slug: string;
   name: string;
   deadline: string;
   imageUrl: string | null;
+  isPaid: boolean;
 }) {
   const dismissed = usePromoDismissed();
   /* Someone who has already registered does not need to be told about it.
@@ -61,7 +63,16 @@ export default function EventPromo({
               <span className="event-promo-dot" aria-hidden="true" />
               Upcoming event
             </span>
-            <span className="event-promo-name">{name}</span>
+            {/* On the title's own line, so it costs no extra height — and it
+                survives on a phone, where the badge row above is hidden. */}
+            <span className="event-promo-titleline">
+              <span
+                className={`event-promo-price${isPaid ? "" : " is-free"}`}
+              >
+                {isPaid ? "Paid" : "Free"}
+              </span>
+              <span className="event-promo-name">{name}</span>
+            </span>
           </span>
         </div>
 
