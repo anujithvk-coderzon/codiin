@@ -1,5 +1,6 @@
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { slugify } from "@/lib/slug";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
    }
   
   const body:eventType=JSON.parse(raw)
-  const slug = body.name.toLowerCase().replace(/ /g, "-")+"-"+body.startDate.slice(0,10);
+  const slug = slugify(body.name)+"-"+body.startDate.slice(0,10);
   try {
     await prisma.event.create({
     data:{

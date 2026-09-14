@@ -1,5 +1,7 @@
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { slugify } from "@/lib/slug";
+import { Prisma } from "@/app/generated/prisma/client";
 import { del, put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
@@ -62,8 +64,12 @@ export async function PATCH(request: Request) {
   const finalUrl = imageUrl ?? null;
 
   try {
+    // Slug follows the title and start date, same shape as on create.
+    // Registrations reference it and cascade with the rename.
+    const slug = slugify(body.name)+"-"+new Date(body.startDate).toISOString().slice(0,10);
     await prisma.event.update({where:{id},data:{
         name:body.name,
+        slug,
         description:body.description,
         applicationEndDate:body.applicationEndDate,
         startDate: body.startDate,
@@ -86,6 +92,9 @@ export async function PATCH(request: Request) {
   }
     return NextResponse.json({message:"Event edited successfully"},{status:200})
   } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return NextResponse.json({message:"Another event already has this name and start date"},{status:409})
+    }
     return NextResponse.json({message:"Unexpected error occured",error},{status:500})
   }
 

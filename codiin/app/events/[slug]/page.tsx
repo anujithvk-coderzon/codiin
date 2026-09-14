@@ -41,7 +41,13 @@ const NAV_LINKS = [
 
 /* generateMetadata and the page body both need the event. Wrapped so the two
    share one query per request rather than hitting the database twice. */
-const getEvent = cache(async (slug: string) => {
+const getEvent = cache(async (rawSlug: string) => {
+  // The route param arrives percent-encoded when the stored slug has
+  // characters outside plain ASCII (older events were slugged loosely).
+  let slug = rawSlug;
+  try {
+    slug = decodeURIComponent(rawSlug);
+  } catch {}
   try {
     return await prisma.event.findUnique({ where: { slug } });
   } catch (error) {
