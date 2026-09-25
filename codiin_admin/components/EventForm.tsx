@@ -437,7 +437,13 @@ const EventForm = ({
       found.applicationEndDate = "The deadline must be tomorrow or later.";
 
     if (!form.startDate) found.startDate = "Choose when it starts.";
-    else if (deadlineDay && startDay <= deadlineDay)
+    else if (!isNew) {
+      /* A live event is being adjusted, so the day-apart rule relaxes to a
+         comparison by the minute: a deadline pushed to this evening is fine
+         as long as the event itself still starts after it. */
+      if (form.applicationEndDate && form.startDate <= form.applicationEndDate)
+        found.startDate = "The event must start after applications close.";
+    } else if (deadlineDay && startDay <= deadlineDay)
       // Compared by day, not by minute: applications closing at 6pm and the
       // event starting at 7pm the same evening leaves nobody time to act on
       // the deadline. This also covers the past-date case, since the deadline
@@ -607,20 +613,30 @@ const EventForm = ({
               id="applicationEndDate"
               label="Applications close"
               required
-              hint="The moment applications stop — tomorrow at the earliest, so people have time to apply. Set this before the event dates; the event starts the day after this."
+              hint={
+                isNew
+                  ? "The moment applications stop — tomorrow at the earliest, so people have time to apply. Set this before the event dates; the event starts the day after this."
+                  : "The moment applications stop. It can be moved to any time from now on, as long as it stays before the event starts."
+              }
               error={errors.applicationEndDate}
             >
               <input
                 id="applicationEndDate"
                 type="datetime-local"
-                /* Tomorrow at the earliest — today, even at a future
-                   hour, leaves too little of a window to fill anything in.
+                /* On a new event, tomorrow at the earliest: today, even at a
+                   future hour, leaves too little of a window to fill anything
+                   in. An event already live is exempt — its deadline may need
+                   extending within the same day, and a bound that the stored
+                   value already breaks would stop the browser submitting the
+                   form at all.
                    Set through a ref rather than rendered: a bound derived
                    from the current date differs between the server and the
                    client and mismatches on hydration, and a ref callback
                    runs on the client only. validate() checks it again. */
                 ref={(el) => {
-                  if (el) el.min = `${nextDay(localToday())}T00:00`;
+                  if (!el) return;
+                  if (isNew) el.min = `${nextDay(localToday())}T00:00`;
+                  else el.removeAttribute("min");
                 }}
                 className={`${inputClass} ${errors.applicationEndDate ? inputErrorClass : ""} sm:max-w-xs`}
                 value={form.applicationEndDate}
@@ -642,9 +658,11 @@ const EventForm = ({
                   // until there is a deadline to bound it, so the order is
                   // enforced by the form rather than explained by the hint.
                   min={
-                    form.applicationEndDate
-                      ? `${nextDay(form.applicationEndDate.slice(0, 10))}T00:00`
-                      : undefined
+                    !form.applicationEndDate
+                      ? undefined
+                      : isNew
+                        ? `${nextDay(form.applicationEndDate.slice(0, 10))}T00:00`
+                        : plusMinutes(form.applicationEndDate, 1)
                   }
                   disabled={!form.applicationEndDate}
                   className={`${inputClass} ${errors.startDate ? inputErrorClass : ""} disabled:cursor-not-allowed disabled:bg-zinc-100 disabled:text-zinc-400`}
